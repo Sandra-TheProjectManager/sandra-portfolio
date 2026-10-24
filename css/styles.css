@@ -917,6 +917,7 @@ body:has(.video-modal[open]) { overflow:hidden; }
 .approved-project-cover--mplify-sfa .approved-cover-image { background:#e7f3fa; }
 .approved-project-cover--helpapp-africa .approved-cover-image { background:#faf8fc; }
 .approved-project-cover--girl-power-foundation .approved-cover-image { background:var(--rose-wash); }
+.approved-project-cover--frutta-smart-seller .approved-cover-image { background:#fff; padding:1.5rem 1.5rem 2.2rem; }
 .approved-cover-enlarge { position:absolute; bottom:.5rem; right:.7rem; left:.7rem; display:flex; justify-content:space-between; font:600 .76rem/1.4 var(--font-body); color:var(--ink-strong); }
 .approved-cover-image:hover .approved-cover-enlarge,.approved-cover-image:focus-visible .approved-cover-enlarge { color:var(--rose); }
 .approved-project-page-image img { max-height:75vh; width:100%; object-fit:contain; }
