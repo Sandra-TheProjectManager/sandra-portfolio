@@ -1094,3 +1094,72 @@ body:has(.project-reader-modal[open]) { overflow:hidden; }
 }
 @keyframes brick-ping { to { transform: scale(2.6); opacity: 0; } }
 @keyframes cloud-drift { to { translate: 14px 0; } }
+
+/* ---------- Project files: folder tab, paper stack and a rubber-stamped category ---------- */
+.files-note { margin: .4rem 0 0; font: 600 .74rem/1.4 var(--font-body); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.card-grid--featured, .card-grid--work { row-gap: clamp(3rem, 5vw, 3.75rem); padding-right: 10px; }
+.card-grid--featured > .project-card, .card-grid--work > .project-card {
+  --folder: #f7edda; --folder-edge: #e2d0ae;
+  margin-top: 1.9rem; overflow: visible; background: var(--folder); border-color: var(--folder-edge); border-top-left-radius: 0;
+  box-shadow: 5px 5px 0 -1px var(--surface), 5px 5px 0 0 var(--line-2), 10px 10px 0 -1px var(--surface), 10px 10px 0 0 var(--line-2), var(--shadow-sm);
+}
+.card-grid--featured > .project-card:nth-child(3n+2), .card-grid--work > .project-card:nth-child(3n+2) { --folder: #f8e7ea; --folder-edge: #e7c6ce; }
+.card-grid--featured > .project-card:nth-child(3n), .card-grid--work > .project-card:nth-child(3n) { --folder: #e9efe5; --folder-edge: #c9d6c3; }
+.card-grid--featured > .project-card:hover, .card-grid--work > .project-card:hover {
+  box-shadow: 7px 7px 0 -1px var(--surface), 7px 7px 0 0 var(--line-2), 14px 14px 0 -1px var(--surface), 14px 14px 0 0 var(--line-2), var(--shadow-md);
+}
+/* folder tab */
+.card-grid--featured > .project-card::before, .card-grid--work > .project-card::before {
+  content: ""; position: absolute; left: -1px; bottom: 100%; width: min(72%, 300px); height: 1.9rem;
+  background: var(--folder); border: 1px solid var(--folder-edge); border-bottom: 0; border-radius: 12px 12px 0 0;
+  clip-path: polygon(0 0, calc(100% - 1.6rem) 0, 100% 100%, 0 100%);
+}
+.card-grid--featured .card-top, .card-grid--work .card-top { min-height: 0; padding: 0; border: 0; }
+.card-grid--featured .card-num, .card-grid--work .card-num {
+  position: absolute; z-index: 1; bottom: calc(100% + .5rem); left: .9rem; max-width: calc(min(72%, 300px) - 2.6rem);
+  overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+  font: 700 .72rem/1 var(--font-body); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-strong);
+}
+.card-grid--featured .card-num::before, .card-grid--work .card-num::before { content: "File "; }
+.card-num[data-file]::after { content: " · " attr(data-file); font-weight: 500; color: var(--muted); }
+.card-grid--featured .card-media, .card-grid--work .card-media { border-radius: 0; }
+.card-grid--work .card-media { border-top-right-radius: calc(var(--radius) - 1px); }
+/* the category becomes a rubber stamp */
+.card-grid--featured .card-top .tag, .card-grid--work .card-top .tag {
+  position: absolute; z-index: 3; top: -.9rem; right: 1rem; transform: rotate(-7deg);
+  padding: .32rem .7rem; border: 2px solid currentColor; border-radius: 4px; outline: 1px solid currentColor; outline-offset: 2px;
+  background: rgba(255, 253, 248, .88); font-size: .74rem; letter-spacing: .16em; mix-blend-mode: multiply;
+}
+.card-grid--featured .card-top .tag::before, .card-grid--work .card-top .tag::before { content: none; }
+.card-grid--featured .card-top .tag--sand, .card-grid--work .card-top .tag--sand { color: #7a5426; }
+.card-grid--work > .project-card:nth-child(even) .card-top .tag { transform: rotate(5deg); }
+
+/* Home: the featured files stack on one another as you scroll */
+@media (min-width: 900px) {
+  .card-grid--featured { grid-template-columns: 1fr; row-gap: 4.5rem; }
+  .card-grid--featured > .project-card {
+    position: sticky; top: calc(var(--header-h) + 2.6rem + var(--stack, 0) * 1.4rem);
+    display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); grid-template-areas: "media top" "media body"; grid-template-rows: auto 1fr;
+    max-height: calc(100vh - var(--header-h) - 4rem);
+  }
+  .card-grid--featured > .project-card:nth-child(2) { --stack: 1; }
+  .card-grid--featured > .project-card:nth-child(3) { --stack: 2; }
+  .card-grid--featured > .project-card .card-top { grid-area: top; }
+  .card-grid--featured > .project-card .card-media { grid-area: media; aspect-ratio: auto; min-height: 100%; border-right: 1px dashed var(--folder-edge); border-bottom-left-radius: calc(var(--radius) - 1px); }
+  .card-grid--featured > .project-card .card-body { grid-area: body; padding: 2.2rem 1.8rem 1.8rem; justify-content: center; }
+  .card-grid--featured > .project-card h3 { font-size: clamp(1.6rem, 2.6vw, 2.1rem); }
+  .card-grid--featured > .project-card:hover { transform: none; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .js .card-grid--featured > .project-card.reveal .card-top .tag { opacity: 0; }
+  .js .card-grid--featured > .project-card.reveal.is-visible .card-top .tag { animation: stamp-thunk .5s cubic-bezier(.3, 1.5, .5, 1) .45s both; }
+  .card-grid--work .card-top .tag { animation: stamp-thunk .5s cubic-bezier(.3, 1.5, .5, 1) both; animation-delay: .35s; }
+  .card-grid--work > .project-card:nth-child(even) .card-top .tag { animation-name: stamp-thunk-even; }
+}
+@keyframes stamp-thunk { 0% { opacity: 0; transform: scale(2.3) rotate(-18deg); } 70% { opacity: 1; transform: scale(.94) rotate(-7deg); } 100% { opacity: 1; transform: rotate(-7deg); } }
+@keyframes stamp-thunk-even { 0% { opacity: 0; transform: scale(2.3) rotate(16deg); } 70% { opacity: 1; transform: scale(.94) rotate(5deg); } 100% { opacity: 1; transform: rotate(5deg); } }
+@media (max-width: 600px) {
+  .card-grid--featured .card-top .tag, .card-grid--work .card-top .tag { top: .8rem; right: .8rem; font-size: .66rem; }
+}
+.card-grid--featured > .project-card, .card-grid--work > .project-card { z-index: 1; } /* keeps each stamp inside its own file when files overlap */
