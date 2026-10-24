@@ -491,8 +491,8 @@
     });
   }
 
-  /* ---------- Site roadmap: remember which main pages this visitor has seen (their browser only)
-     and point "Next stop" at the next unseen page; once all are seen, point to Contact. ---------- */
+  /* ---------- Site roadmap: tick off the main pages this visitor has seen (their browser only).
+     "Next stop" stays in page order, as written in the markup. ---------- */
   function initSiteRoadmap() {
     var order = ['/', '/work/', '/about/', '/work-with-me/', '/contact/'];
     var here = location.pathname.indexOf('/work/') === 0 ? '/work/' : location.pathname;
@@ -510,20 +510,7 @@
     });
     var count = order.filter(function (p) { return seen.indexOf(p) !== -1; }).length;
     var kicker = map.querySelector('[data-roadmap-kicker]');
-    var next = map.querySelector('.site-roadmap-next');
-    var start = order.indexOf(here);
-    var target = null;
-    for (var i = 1; i < order.length; i++) {
-      var p = order[(start + i) % order.length];
-      if (seen.indexOf(p) === -1) { target = p; break; }
-    }
-    if (kicker) kicker.textContent = target ? 'You’ve explored ' + count + ' of ' + order.length + ' pages' : 'You’ve seen every page. Thank you for looking around';
-    if (!next) return;
-    if (!target) target = here === '/contact/' ? '/' : '/contact/';
-    var link = map.querySelector('.site-roadmap-steps a[href="' + target + '"]');
-    next.setAttribute('href', target);
-    next.querySelector('strong').textContent = link.textContent;
-    next.querySelector('small').textContent = count === order.length && target === '/contact/' ? 'You’ve seen it all. Let’s talk' : link.getAttribute('data-teaser');
+    if (kicker) kicker.textContent = count === order.length ? 'You’ve seen every page. Thank you for looking around' : 'You’ve explored ' + count + ' of ' + order.length + ' pages';
   }
 
 
