@@ -418,6 +418,7 @@
       var controls = slider.querySelector('.slider-controls');
       var prev = slider.querySelector('[data-slide="prev"]');
       var next = slider.querySelector('[data-slide="next"]');
+      var position = slider.querySelector('[data-slide-position]');
       var slides = track ? track.querySelectorAll('.slide') : [];
       if (!track || slides.length < 2) return;
       if (controls) controls.hidden = false;
@@ -427,6 +428,7 @@
         var max = track.scrollWidth - track.clientWidth - 2;
         prev.disabled = track.scrollLeft <= 2;
         next.disabled = track.scrollLeft >= max;
+        if (position) position.textContent = (Math.min(slides.length, Math.round(track.scrollLeft / step()) + 1)) + ' / ' + slides.length;
       }
       prev.addEventListener('click', function () { track.scrollBy({ left: -step(), behavior: reduceMotion ? 'auto' : 'smooth' }); });
       next.addEventListener('click', function () { track.scrollBy({ left: step(), behavior: reduceMotion ? 'auto' : 'smooth' }); });
@@ -434,6 +436,7 @@
       track.addEventListener('keydown', function (e) {
         if (e.key === 'ArrowRight') { e.preventDefault(); next.click(); }
         if (e.key === 'ArrowLeft') { e.preventDefault(); prev.click(); }
+        if (e.key === 'Home' || e.key === 'End') { e.preventDefault(); track.scrollBy({ left: e.key === 'Home' ? -track.scrollLeft : track.scrollWidth, behavior: reduceMotion ? 'auto' : 'smooth' }); }
       });
       window.addEventListener('resize', update);
       update();
