@@ -1097,70 +1097,6 @@ body:has(.project-reader-modal[open]) { overflow:hidden; }
 @keyframes brick-ping { to { transform: scale(2.6); opacity: 0; } }
 @keyframes cloud-drift { to { translate: 14px 0; } }
 
-/* ---------- Project cards: taped to the board with a ticket ID and a stamped category ---------- */
-.card-grid--featured, .card-grid--work { row-gap: clamp(2.6rem, 5vw, 3.4rem); padding-right: 10px; }
-.card-grid--featured > .project-card, .card-grid--work > .project-card {
-  --folder: #f7edda; --folder-edge: #e2d0ae;
-  z-index: 1; overflow: visible; background: var(--folder); border-color: var(--folder-edge);
-  box-shadow: 5px 5px 0 -1px var(--surface), 5px 5px 0 0 var(--line-2), 10px 10px 0 -1px var(--surface), 10px 10px 0 0 var(--line-2), var(--shadow-sm);
-}
-.card-grid--featured > .project-card:nth-child(3n+2), .card-grid--work > .project-card:nth-child(3n+2) { --folder: #f8e7ea; --folder-edge: #e7c6ce; }
-.card-grid--featured > .project-card:nth-child(3n), .card-grid--work > .project-card:nth-child(3n) { --folder: #e9efe5; --folder-edge: #c9d6c3; }
-.card-grid--featured > .project-card:hover, .card-grid--work > .project-card:hover {
-  box-shadow: 7px 7px 0 -1px var(--surface), 7px 7px 0 0 var(--line-2), 14px 14px 0 -1px var(--surface), 14px 14px 0 0 var(--line-2), var(--shadow-md);
-}
-.card-grid--featured > .project-card::before, .card-grid--work > .project-card::before { /* tape */
-  content: ""; position: absolute; z-index: 4; top: -13px; left: 1.1rem; width: 7.4rem; height: 1.7rem; transform: rotate(-3deg);
-  background: rgba(217, 154, 171, .6);
-  clip-path: polygon(0 8%, 4% 0, 8% 9%, 12% 0, 100% 0, 96% 50%, 100% 100%, 8% 100%, 4% 92%, 0 100%, 3% 50%);
-}
-.card-grid--featured .card-top, .card-grid--work .card-top { min-height: 0; padding: 0; border: 0; }
-.card-grid--featured .card-num, .card-grid--work .card-num {
-  position: absolute; z-index: 5; top: -6px; left: 1.1rem; width: 7.4rem; transform: rotate(-3deg); text-align: center;
-  font: 700 .74rem/1 var(--font-body); letter-spacing: .14em; color: var(--ink-strong);
-}
-.card-grid--featured .card-num::before, .card-grid--work .card-num::before { content: "PRJ-"; }
-.card-grid--featured .card-media, .card-grid--work .card-media { border-radius: 0; }
-.card-grid--work .card-media { border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0; }
-.card-grid--featured .card-top .tag, .card-grid--work .card-top .tag { /* stamp */
-  position: absolute; z-index: 3; top: -.9rem; right: 1rem; transform: rotate(-7deg);
-  padding: .32rem .7rem; border: 2px solid currentColor; border-radius: 4px; outline: 1px solid currentColor; outline-offset: 2px;
-  background: rgba(255, 253, 248, .88); font-size: .74rem; letter-spacing: .16em; mix-blend-mode: multiply;
-}
-.card-grid--featured .card-top .tag::before, .card-grid--work .card-top .tag::before { content: none; }
-.card-grid--featured .card-top .tag--sand, .card-grid--work .card-top .tag--sand { color: #7a5426; }
-.card-grid--work > .project-card:nth-child(even) .card-top .tag { transform: rotate(5deg); }
-@media (max-width: 600px) {
-  .card-grid--featured .card-top .tag, .card-grid--work .card-top .tag { top: .8rem; right: .8rem; font-size: .66rem; }
-}
-
-/* Home: the featured cards pile onto one another as you scroll */
-@media (min-width: 900px) {
-  .card-grid--featured { grid-template-columns: 1fr; row-gap: 4rem; }
-  .card-grid--featured > .project-card {
-    position: sticky; top: calc(var(--header-h) + 1.8rem + var(--stack, 0) * 1.5rem);
-    display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); grid-template-areas: "media top" "media body"; grid-template-rows: auto 1fr;
-    max-height: calc(100vh - var(--header-h) - 3.5rem);
-  }
-  .card-grid--featured > .project-card:nth-child(2) { --stack: 1; }
-  .card-grid--featured > .project-card:nth-child(3) { --stack: 2; }
-  .card-grid--featured > .project-card .card-top { grid-area: top; }
-  .card-grid--featured > .project-card .card-media { grid-area: media; aspect-ratio: auto; min-height: 100%; border-right: 1px dashed var(--folder-edge); border-radius: calc(var(--radius) - 1px) 0 0 calc(var(--radius) - 1px); }
-  .card-grid--featured > .project-card .card-body { grid-area: body; padding: 2.2rem 1.8rem 1.8rem; justify-content: center; }
-  .card-grid--featured > .project-card h3 { font-size: clamp(1.6rem, 2.6vw, 2.1rem); }
-  .card-grid--featured > .project-card:hover { transform: none; }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .js .card-grid--featured > .project-card.reveal .card-top .tag { opacity: 0; }
-  .js .card-grid--featured > .project-card.reveal.is-visible .card-top .tag { animation: stamp-thunk .5s cubic-bezier(.3, 1.5, .5, 1) .45s both; }
-  .card-grid--work .card-top .tag { animation: stamp-thunk .5s cubic-bezier(.3, 1.5, .5, 1) .35s both; }
-  .card-grid--work > .project-card:nth-child(even) .card-top .tag { animation-name: stamp-thunk-even; }
-}
-@keyframes stamp-thunk { 0% { opacity: 0; transform: scale(2.3) rotate(-18deg); } 70% { opacity: 1; transform: scale(.94) rotate(-7deg); } 100% { opacity: 1; transform: rotate(-7deg); } }
-@keyframes stamp-thunk-even { 0% { opacity: 0; transform: scale(2.3) rotate(16deg); } 70% { opacity: 1; transform: scale(.94) rotate(5deg); } 100% { opacity: 1; transform: rotate(5deg); } }
-@media (min-width: 900px) { .card-grid--featured .card-top .tag { top: 1.1rem; } } /* keep stamps inside the pile; only the tape peeks out */
-
 /* ---------- Career roadmap: roles as a Gantt chart, Jan 2020 → Dec 2026 (84 months) ---------- */
 .roadmap { --now: 82; --label: 17rem; --gap: 1.25rem; position: relative; margin-top: clamp(2rem, 5vw, 3rem); padding: 1.25rem clamp(1rem, 3vw, 1.75rem) 1rem; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-sm); }
 .js .roadmap.reveal { opacity: 1; transform: none; }
@@ -1199,3 +1135,52 @@ body:has(.project-reader-modal[open]) { overflow:hidden; }
   .js .roadmap.is-visible .roadmap-track::after, .js .roadmap.is-visible .roadmap-today { opacity: 1; transition: opacity .5s ease 1.2s; }
 }
 .bricks-section .roadmap { margin: clamp(3rem, 7vw, 4.5rem) 0 0; }
+
+/* ---------- Projects as a Kanban board: lanes by type, ticket cards, an open lane for the next project ---------- */
+.kanban { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; align-items: start; margin-top: clamp(1.25rem, 3vw, 2rem); }
+.kanban-col { --lane: var(--line-2); padding: .75rem .7rem .9rem; background: var(--paper-2); border: 1px solid var(--line); border-top: 4px solid var(--lane); border-radius: 14px; transition: opacity .3s ease; }
+.kanban-col--rose  { --lane: var(--rose); }
+.kanban-col--gold  { --lane: #dfa94a; }
+.kanban-col--sage  { --lane: #4c7458; }
+.kanban-col--cocoa { --lane: var(--cocoa); }
+.kanban-col--open  { background: transparent; border-style: dashed; border-top-style: dashed; }
+.kanban--work .kanban-col:not(:has([data-category]:not([hidden]))):not(:has(.kanban-ghost)) { opacity: .45; }
+.kanban-head { display: flex; align-items: center; justify-content: space-between; gap: .5rem; padding: .2rem .35rem .8rem; }
+.kanban-title { display: flex; align-items: center; gap: .5rem; margin: 0; font: 700 .76rem/1.3 var(--font-body); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-strong); }
+.kanban-title::before { content: ""; flex: none; width: 9px; height: 9px; border-radius: 50%; background: var(--lane); }
+.kanban-count { min-width: 1.7rem; padding: .1rem .5rem; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); font: 700 .74rem/1.5 var(--font-body); text-align: center; color: var(--muted); }
+.kanban-cards { list-style: none; margin: 0; padding: 0; display: grid; gap: .85rem; }
+
+.kanban .project-card { border-radius: 10px; border-left: 4px solid var(--lane); box-shadow: 0 1px 0 var(--line-2), var(--shadow-sm); }
+.kanban .project-card:hover { transform: translateY(-4px) rotate(-1.2deg); box-shadow: var(--shadow-md); }
+.kanban .card-top { padding: .6rem .8rem; border-bottom: 1px dashed var(--line); }
+.kanban .card-num { font: 700 .72rem/1 var(--font-body); letter-spacing: .12em; color: var(--muted); }
+.kanban .card-num::before { content: "PRJ-"; }
+.kanban .card-top .tag { padding: .2rem .45rem; font-size: .6rem; letter-spacing: .06em; white-space: nowrap; }
+.kanban .card-num { flex: none; white-space: nowrap; }
+.kanban .card-media { aspect-ratio: 16 / 10; }
+.kanban .ink-cue { display: none; }
+.kanban .card-body { padding: .85rem .9rem 1rem; gap: .45rem; }
+.kanban .card-body h3 { font-size: 1.12rem; line-height: 1.25; }
+.kanban .card-body > p:not(.card-role) { display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; font-size: .88rem; }
+
+.kanban-ghost a { display: flex; flex-direction: column; align-items: flex-start; gap: .25rem; padding: 1rem; border: 2px dashed var(--line-2); border-radius: 10px; font-weight: 700; color: var(--muted); text-decoration: none; transition: border-color .2s ease, color .2s ease, background-color .2s ease; }
+.kanban-ghost small { font-size: .82rem; font-weight: 400; }
+.kanban-ghost-plus { display: inline-grid; place-items: center; width: 1.6rem; height: 1.6rem; margin-bottom: .2rem; border-radius: 50%; background: var(--surface); border: 1px solid var(--line-2); font-size: 1.1rem; line-height: 1; }
+.kanban-ghost a:hover, .kanban-ghost a:focus-visible { border-color: var(--rose); color: var(--rose); background: var(--rose-wash); }
+.kanban-hint { display: none; margin: .4rem 0 0; font: 500 1.05rem/1 var(--font-note); color: var(--rose); }
+
+/* Narrower screens: a sideways-scrolling board, one lane at a time. */
+@media (max-width: 1000px) {
+  .kanban { display: flex; gap: .9rem; overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: calc(var(--gutter) * -1); padding: 0 var(--gutter) .9rem; scroll-padding-inline: var(--gutter); }
+  .kanban-col { flex: 0 0 min(82vw, 320px); scroll-snap-align: start; }
+  .kanban-hint { display: block; }
+}
+
+/* Work: cards are dealt onto the board. */
+@media (prefers-reduced-motion: no-preference) {
+  .kanban-col:nth-child(2) { --c: 1; } .kanban-col:nth-child(3) { --c: 2; } .kanban-col:nth-child(4) { --c: 3; }
+  .kanban-cards > :nth-child(2) { --r: 1; } .kanban-cards > :nth-child(3) { --r: 2; }
+  .kanban--work .kanban-cards > li { animation: card-deal .55s var(--ease) both; animation-delay: calc(var(--c, 0) * 90ms + var(--r, 0) * 150ms + 100ms); }
+}
+@keyframes card-deal { from { opacity: 0; transform: translateY(-18px) rotate(-3deg); } to { opacity: 1; transform: none; } }

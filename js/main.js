@@ -130,6 +130,9 @@
       });
       buttons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-filter') === filter)); });
       if (count) count.textContent = shown + (shown === 1 ? ' project' : ' projects');
+      grid.querySelectorAll('[data-col-count]').forEach(function (n) {
+        n.textContent = n.closest('.kanban-col').querySelectorAll('[data-category]:not([hidden])').length;
+      });
       if (updateUrl && window.history && history.replaceState) {
         var url = new URL(window.location.href);
         if (filter === 'all') url.searchParams.delete('category');
