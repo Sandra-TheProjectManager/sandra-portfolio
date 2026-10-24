@@ -24,6 +24,7 @@
     initRoadmap();
     initToolbox();
     initSiteRoadmap();
+    initCountUp();
 
     var year = document.getElementById('year');
     if (year) year.textContent = String(new Date().getFullYear());
@@ -511,6 +512,28 @@
     var count = order.filter(function (p) { return seen.indexOf(p) !== -1; }).length;
     var kicker = map.querySelector('[data-roadmap-kicker]');
     if (kicker) kicker.textContent = count === order.length ? 'You’ve seen every page. Thank you for looking around' : 'You’ve explored ' + count + ' of ' + order.length + ' pages';
+  }
+
+  /* ---------- By the numbers: count up once when the strip scrolls into view ---------- */
+  function initCountUp() {
+    var strip = document.querySelector('[data-count-up]');
+    if (!strip || reduceMotion || !('IntersectionObserver' in window)) return;
+    var nums = strip.querySelectorAll('[data-count]');
+    nums.forEach(function (n) { n.textContent = '0'; });
+    var observer = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting) return;
+      observer.disconnect();
+      var start = null;
+      var tick = function (t) {
+        if (start === null) start = t;
+        var p = Math.min(1, (t - start) / 1400);
+        var eased = 1 - Math.pow(1 - p, 3);
+        nums.forEach(function (n) { n.textContent = String(Math.round(eased * Number(n.getAttribute('data-count')))); });
+        if (p < 1) window.requestAnimationFrame(tick);
+      };
+      window.requestAnimationFrame(tick);
+    }, { threshold: 0.4 });
+    observer.observe(strip);
   }
 
 
