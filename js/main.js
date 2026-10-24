@@ -461,10 +461,10 @@
     });
   }
 
-  /* ---------- Career roadmap: place "today" (months since Jan 2020, axis ends Dec 2026) ---------- */
+  /* ---------- Career roadmap: place "today" (months since Jan 2018, axis ends Dec 2026) ---------- */
   function initRoadmap() {
     var now = new Date();
-    var months = Math.min(84, (now.getFullYear() - 2020) * 12 + now.getMonth() + 1);
+    var months = Math.min(108, (now.getFullYear() - 2018) * 12 + now.getMonth() + 1);
     document.querySelectorAll('[data-roadmap]').forEach(function (map) { map.style.setProperty('--now', months); });
   }
 
