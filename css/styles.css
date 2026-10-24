@@ -1222,3 +1222,38 @@ body:has(.project-reader-modal[open]) { overflow:hidden; }
   .nav-email-full { display: inline; } .nav-email-short { display: none; }
 }
 .brand-photo { object-view-box: inset(11% 27% 50% 27%); } /* zoom to the face where supported */
+
+/* ---------- About: Ask me anything ---------- */
+.qa-list { list-style: none; margin: clamp(1.5rem, 4vw, 2.5rem) 0 0; padding: 0; }
+.qa { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 1rem clamp(2rem, 5vw, 4rem); padding: clamp(1.4rem, 3vw, 2rem) 0; border-top: 1px dashed var(--line-2); }
+.qa:last-child { border-bottom: 1px dashed var(--line-2); }
+.qa-q { display: flex; gap: 1rem; margin: 0; font: 500 clamp(1.3rem, 2.4vw, 1.7rem)/1.25 var(--font-display); color: var(--ink-strong); }
+.qa-n { flex: none; display: inline-grid; place-items: center; width: 2.4rem; height: 2.4rem; margin-top: -.2rem; border: 1.5px solid var(--rose); border-radius: 50%; font: 700 .78rem/1 var(--font-body); color: var(--rose); transition: background-color .2s ease, color .2s ease; }
+.qa:hover .qa-n { background: var(--rose); color: #fff; }
+.qa-a { margin: 0; color: var(--ink); }
+.qa-a em { font-style: normal; font-weight: 700; color: var(--rose); }
+@media (max-width: 760px) { .qa { grid-template-columns: 1fr; } .qa-a { padding-left: 3.4rem; } }
+
+/* ---------- About: toolbox chips that drop in and can be moved around ---------- */
+.toolbox { position: relative; list-style: none; display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: .9rem 1rem; min-height: 15rem; margin: clamp(1.5rem, 4vw, 2.5rem) 0 0; padding: clamp(1.5rem, 4vw, 2.5rem); border: 2px dashed var(--line-2); border-radius: 22px; background: radial-gradient(circle at 1px 1px, rgba(59, 36, 29, .08) 1px, transparent 1.5px) 0 0 / 16px 16px, var(--surface); }
+.js .toolbox.reveal { opacity: 1; transform: none; }
+.tool { --dx: 0px; --dy: 0px; padding: .6rem 1.15rem; border: 1.5px solid var(--cocoa); border-radius: 999px; font: 700 clamp(.92rem, 1.8vw, 1.05rem)/1.2 var(--font-body); color: var(--ink-strong); box-shadow: 3px 3px 0 var(--cocoa); user-select: none; rotate: var(--r); transform: translate(var(--dx), var(--dy)); }
+.tool--plan { background: var(--rose-soft); }
+.tool--data { background: #f3dfae; }
+.tool--auto { background: #d7e6d8; }
+.tool--team { background: #e6dccf; }
+.tool.is-draggable { cursor: grab; touch-action: none; }
+.tool.is-dragging { cursor: grabbing; position: relative; z-index: 2; rotate: 0deg; box-shadow: 6px 8px 0 var(--cocoa); }
+.toolbox-hint { font: 500 1.15rem/1 var(--font-note); color: var(--rose); white-space: nowrap; }
+.toolbox-key { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem 1.4rem; margin: 1rem 0 0; padding: 0; font: 600 .78rem/1.4 var(--font-body); color: var(--muted); }
+.toolbox-key li { display: inline-flex; align-items: center; gap: .45rem; background: none; }
+.toolbox-key li::before { content: ""; width: .8rem; height: .8rem; border: 1.5px solid var(--cocoa); border-radius: 50%; }
+.toolbox-key .tool--plan::before { background: var(--rose-soft); }
+.toolbox-key .tool--data::before { background: #f3dfae; }
+.toolbox-key .tool--auto::before { background: #d7e6d8; }
+.toolbox-key .tool--team::before { background: #e6dccf; }
+@media (prefers-reduced-motion: no-preference) {
+  .js .toolbox .tool { opacity: 0; }
+  .js .toolbox.is-visible .tool { animation: tool-drop .7s cubic-bezier(.3, 1.4, .5, 1) both; animation-delay: calc(var(--i) * 55ms); }
+}
+@keyframes tool-drop { from { opacity: 0; translate: 0 -140px; rotate: calc(var(--r) * 4); } to { opacity: 1; translate: 0 0; rotate: var(--r); } }

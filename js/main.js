@@ -22,6 +22,7 @@
     initSliders();
     initExpandAll();
     initRoadmap();
+    initToolbox();
 
     var year = document.getElementById('year');
     if (year) year.textContent = String(new Date().getFullYear());
@@ -464,6 +465,29 @@
     var now = new Date();
     var months = Math.min(84, (now.getFullYear() - 2020) * 12 + now.getMonth() + 1);
     document.querySelectorAll('[data-roadmap]').forEach(function (map) { map.style.setProperty('--now', months); });
+  }
+
+  /* ---------- Toolbox: chips can be dragged around (mouse and pen only, so touch still scrolls) ---------- */
+  function initToolbox() {
+    if (!window.matchMedia || !window.matchMedia('(pointer: fine)').matches) return;
+    document.querySelectorAll('[data-toolbox] .tool').forEach(function (chip) {
+      var x = 0, y = 0, startX = 0, startY = 0;
+      chip.classList.add('is-draggable');
+      chip.addEventListener('pointerdown', function (e) {
+        chip.setPointerCapture(e.pointerId);
+        startX = e.clientX - x; startY = e.clientY - y;
+        chip.classList.add('is-dragging');
+      });
+      chip.addEventListener('pointermove', function (e) {
+        if (!chip.classList.contains('is-dragging')) return;
+        x = e.clientX - startX; y = e.clientY - startY;
+        chip.style.setProperty('--dx', x + 'px');
+        chip.style.setProperty('--dy', y + 'px');
+      });
+      var drop = function () { chip.classList.remove('is-dragging'); };
+      chip.addEventListener('pointerup', drop);
+      chip.addEventListener('pointercancel', drop);
+    });
   }
 
 
