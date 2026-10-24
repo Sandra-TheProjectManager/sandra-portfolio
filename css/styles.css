@@ -1160,3 +1160,41 @@ body:has(.project-reader-modal[open]) { overflow:hidden; }
 @keyframes stamp-thunk { 0% { opacity: 0; transform: scale(2.3) rotate(-18deg); } 70% { opacity: 1; transform: scale(.94) rotate(-7deg); } 100% { opacity: 1; transform: rotate(-7deg); } }
 @keyframes stamp-thunk-even { 0% { opacity: 0; transform: scale(2.3) rotate(16deg); } 70% { opacity: 1; transform: scale(.94) rotate(5deg); } 100% { opacity: 1; transform: rotate(5deg); } }
 @media (min-width: 900px) { .card-grid--featured .card-top .tag { top: 1.1rem; } } /* keep stamps inside the pile; only the tape peeks out */
+
+/* ---------- Career roadmap: roles as a Gantt chart, Jan 2020 → Dec 2026 (84 months) ---------- */
+.roadmap { --now: 82; --label: 17rem; --gap: 1.25rem; position: relative; margin-top: clamp(2rem, 5vw, 3rem); padding: 1.25rem clamp(1rem, 3vw, 1.75rem) 1rem; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+.js .roadmap.reveal { opacity: 1; transform: none; }
+.roadmap-rows { list-style: none; margin: 0; padding: 0; }
+.roadmap-row { display: grid; grid-template-columns: var(--label) minmax(0, 1fr); column-gap: var(--gap); border-bottom: 1px dashed var(--line); }
+.roadmap-label { margin: 0; padding: .6rem 0; display: flex; flex-direction: column; line-height: 1.3; }
+.roadmap-label b { color: var(--ink-strong); font-size: .92rem; font-weight: 600; }
+.roadmap-label > span { font-size: .8rem; color: var(--muted); }
+.roadmap-track { position: relative; display: block; min-height: 2.4rem; background: linear-gradient(90deg, var(--line) 1px, transparent 1px) 0 0 / calc(100% / 7) 100%; }
+.roadmap-track::after { /* today */ content: ""; position: absolute; top: 0; bottom: -1px; left: calc(var(--now) / 84 * 100%); border-left: 2px dashed var(--rose); }
+.roadmap-bar { position: absolute; top: 50%; height: .9rem; margin-top: -.45rem; left: calc(var(--s) / 84 * 100%); width: max(calc((var(--e) - var(--s)) / 84 * 100%), .9rem); border-radius: 999px; }
+.roadmap-bar::before { /* start milestone */ content: ""; position: absolute; left: -.4rem; top: 50%; width: .8rem; height: .8rem; margin-top: -.4rem; transform: rotate(45deg); background: inherit; border: 2px solid var(--surface); border-radius: 2px; }
+.roadmap-bar--gold  { background-color: #dfa94a; }
+.roadmap-bar--sage  { background-color: #4c7458; }
+.roadmap-bar--cocoa { background-color: var(--cocoa); }
+.roadmap-bar--rose  { background-color: var(--rose); }
+.roadmap-bar--ongoing { background-image: repeating-linear-gradient(-45deg, transparent 0 5px, rgba(255, 255, 255, .3) 5px 10px); border-radius: 999px 3px 3px 999px; }
+.roadmap-axis { position: relative; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); margin-left: calc(var(--label) + var(--gap)); padding-top: 1.7rem; font: 600 .72rem/1 var(--font-body); letter-spacing: .06em; color: var(--muted); font-variant-numeric: tabular-nums; }
+.roadmap-axis > span:not(.roadmap-today) { padding-left: .3rem; border-left: 1px solid var(--line-2); }
+.roadmap-today { position: absolute; top: .35rem; left: calc(var(--now) / 84 * 100%); transform: translateX(-50%); padding: .2rem .45rem; border-radius: 4px; background: var(--rose); color: #fff; letter-spacing: .1em; text-transform: uppercase; font-size: .62rem; }
+@media (max-width: 700px) {
+  .roadmap { --label: 0px; --gap: 0px; }
+  .roadmap-row { grid-template-columns: minmax(0, 1fr); }
+  .roadmap-label { padding: .6rem 0 .1rem; }
+  .roadmap-track { min-height: 1.8rem; }
+  .roadmap-axis { margin-left: 0; font-size: .62rem; }
+}
+.roadmap { margin-block: 0 clamp(2rem, 5vw, 3rem); }
+.roadmap-title { margin: 0 0 .6rem; font: 600 1.25rem/1.3 var(--font-display); color: var(--ink-strong); }
+.roadmap-title span { display: block; font: 400 .88rem/1.5 var(--font-body); color: var(--muted); }
+@media (prefers-reduced-motion: no-preference) {
+.js .roadmap.reveal { opacity: 1; transform: none; }
+  .js .roadmap-bar { transform: scaleX(0); transform-origin: left center; }
+  .js .roadmap.is-visible .roadmap-bar { transform: none; transition: transform .9s var(--ease); transition-delay: calc(var(--i) * 170ms); }
+  .js .roadmap-track::after, .js .roadmap-today { opacity: 0; }
+  .js .roadmap.is-visible .roadmap-track::after, .js .roadmap.is-visible .roadmap-today { opacity: 1; transition: opacity .5s ease 1.2s; }
+}

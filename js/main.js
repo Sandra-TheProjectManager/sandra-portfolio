@@ -21,6 +21,7 @@
     initCopyEmail();
     initSliders();
     initExpandAll();
+    initRoadmap();
 
     var year = document.getElementById('year');
     if (year) year.textContent = String(new Date().getFullYear());
@@ -453,6 +454,13 @@
       bar.querySelector('[data-expand="open"]').addEventListener('click', function () { items.forEach(function (d) { d.open = true; }); });
       bar.querySelector('[data-expand="close"]').addEventListener('click', function () { items.forEach(function (d) { d.open = false; }); });
     });
+  }
+
+  /* ---------- Career roadmap: place "today" (months since Jan 2020, axis ends Dec 2026) ---------- */
+  function initRoadmap() {
+    var now = new Date();
+    var months = Math.min(84, (now.getFullYear() - 2020) * 12 + now.getMonth() + 1);
+    document.querySelectorAll('[data-roadmap]').forEach(function (map) { map.style.setProperty('--now', months); });
   }
 
 
