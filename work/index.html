@@ -15,13 +15,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap"></noscript>
-  <link rel="stylesheet" href="/css/styles.css?v=ed8764345b">
+  <link rel="stylesheet" href="/css/styles.css?v=7e70606a13">
   <script>
     document.documentElement.classList.add('js');
     setTimeout(function () { var r = document.documentElement; if (!r.classList.contains('ready')) r.classList.remove('js'); }, 2500);
     try { sessionStorage.setItem('sa-intro-seen', '1'); } catch (e) {}
   </script>
-  <script src="/js/main.js?v=b1fc02d51c" defer></script>
+  <script src="/js/main.js?v=ac67779296" defer></script>
 <meta name="robots" content="noindex, nofollow"></head>
 <body>
   <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
@@ -177,15 +177,15 @@
         </div>
       </div>
     </section>
-    <nav class="site-roadmap reveal" aria-label="Pages on this site">
+    <nav class="site-roadmap reveal" data-site-roadmap aria-label="Pages on this site">
       <div class="container">
-        <p class="site-roadmap-kicker">There’s more to see · page 2 of 5</p>
+        <p class="site-roadmap-kicker" data-roadmap-kicker>There’s more to see · page 2 of 5</p>
         <ol class="site-roadmap-steps">
-          <li class="is-done"><a href="/">Home</a></li>
-          <li class="is-current"><a href="/work/" aria-current="page">Work</a><span class="site-roadmap-here">You are here</span></li>
-          <li><a href="/about/">About</a></li>
-          <li><a href="/work-with-me/">Work with me</a></li>
-          <li><a href="/contact/">Contact</a></li>
+          <li class="is-done"><a href="/" data-teaser="Back to the start">Home</a></li>
+          <li class="is-current"><a href="/work/" data-teaser="All 8 projects on the board" aria-current="page">Work</a><span class="site-roadmap-here">You are here</span></li>
+          <li><a href="/about/" data-teaser="My story, roadmap and toolbox">About</a></li>
+          <li><a href="/work-with-me/" data-teaser="How I can help your team">Work with me</a></li>
+          <li><a href="/contact/" data-teaser="Let’s talk about your project">Contact</a></li>
         </ol>
         <a class="site-roadmap-next" href="/about/"><span>Next stop: <strong>About</strong> <span aria-hidden="true">→</span></span><small>My story, roadmap and toolbox</small></a>
       </div>

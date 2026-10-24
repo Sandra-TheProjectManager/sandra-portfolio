@@ -23,6 +23,7 @@
     initExpandAll();
     initRoadmap();
     initToolbox();
+    initSiteRoadmap();
 
     var year = document.getElementById('year');
     if (year) year.textContent = String(new Date().getFullYear());
@@ -488,6 +489,41 @@
       chip.addEventListener('pointerup', drop);
       chip.addEventListener('pointercancel', drop);
     });
+  }
+
+  /* ---------- Site roadmap: remember which main pages this visitor has seen (their browser only)
+     and point "Next stop" at the next unseen page; once all are seen, point to Contact. ---------- */
+  function initSiteRoadmap() {
+    var order = ['/', '/work/', '/about/', '/work-with-me/', '/contact/'];
+    var here = location.pathname.indexOf('/work/') === 0 ? '/work/' : location.pathname;
+    var seen = [];
+    try { seen = JSON.parse(localStorage.getItem('sa-pages-seen') || '[]'); } catch (e) { seen = []; }
+    if (order.indexOf(here) !== -1 && seen.indexOf(here) === -1) seen.push(here);
+    try { localStorage.setItem('sa-pages-seen', JSON.stringify(seen)); } catch (e) { /* private mode: still works for this page */ }
+
+    var map = document.querySelector('[data-site-roadmap]');
+    if (!map) return;
+    var links = map.querySelectorAll('.site-roadmap-steps a');
+    links.forEach(function (a) {
+      var li = a.parentNode;
+      if (!li.classList.contains('is-current')) li.classList.toggle('is-done', seen.indexOf(a.getAttribute('href')) !== -1);
+    });
+    var count = order.filter(function (p) { return seen.indexOf(p) !== -1; }).length;
+    var kicker = map.querySelector('[data-roadmap-kicker]');
+    var next = map.querySelector('.site-roadmap-next');
+    var start = order.indexOf(here);
+    var target = null;
+    for (var i = 1; i < order.length; i++) {
+      var p = order[(start + i) % order.length];
+      if (seen.indexOf(p) === -1) { target = p; break; }
+    }
+    if (kicker) kicker.textContent = target ? 'You’ve explored ' + count + ' of ' + order.length + ' pages' : 'You’ve seen every page. Thank you for looking around';
+    if (!next) return;
+    if (!target) target = here === '/contact/' ? '/' : '/contact/';
+    var link = map.querySelector('.site-roadmap-steps a[href="' + target + '"]');
+    next.setAttribute('href', target);
+    next.querySelector('strong').textContent = link.textContent;
+    next.querySelector('small').textContent = count === order.length && target === '/contact/' ? 'You’ve seen it all. Let’s talk' : link.getAttribute('data-teaser');
   }
 
 

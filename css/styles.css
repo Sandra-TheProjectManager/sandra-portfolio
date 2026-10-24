@@ -1290,3 +1290,5 @@ body:has(.project-reader-modal[open]) { overflow:hidden; }
   .js .site-roadmap.is-visible .is-current::before { animation: here-pulse 1.8s ease-out 1s 2; }
 }
 @keyframes here-pulse { 50% { box-shadow: 0 0 0 10px var(--rose-soft); } }
+.qa-a a { color: var(--rose); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--rose-mid); }
+.qa-a a:hover { text-decoration-color: var(--rose); }
