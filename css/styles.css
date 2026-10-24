@@ -1257,3 +1257,5 @@ body:has(.project-reader-modal[open]) { overflow:hidden; }
   .js .toolbox.is-visible .tool { animation: tool-drop .7s cubic-bezier(.3, 1.4, .5, 1) both; animation-delay: calc(var(--i) * 55ms); }
 }
 @keyframes tool-drop { from { opacity: 0; translate: 0 -140px; rotate: calc(var(--r) * 4); } to { opacity: 1; translate: 0 0; rotate: var(--r); } }
+.ci--x { font: 700 1.05rem/1 var(--font-body); }
+.sign--paper { background: var(--surface); outline: 1.5px solid var(--cocoa); outline-offset: -1.5px; }
