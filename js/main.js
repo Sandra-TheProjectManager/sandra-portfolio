@@ -21,6 +21,8 @@
     initCopyEmail();
     initSliders();
     initExpandAll();
+    initRoadmap();
+    initBrief();
 
     var year = document.getElementById('year');
     if (year) year.textContent = String(new Date().getFullYear());
@@ -452,6 +454,25 @@
       bar.hidden = false;
       bar.querySelector('[data-expand="open"]').addEventListener('click', function () { items.forEach(function (d) { d.open = true; }); });
       bar.querySelector('[data-expand="close"]').addEventListener('click', function () { items.forEach(function (d) { d.open = false; }); });
+    });
+  }
+
+  /* ---------- Career roadmap: place "today" (months since Jan 2020, axis ends Dec 2026) ---------- */
+  function initRoadmap() {
+    var now = new Date();
+    var months = Math.min(84, (now.getFullYear() - 2020) * 12 + now.getMonth() + 1);
+    document.querySelectorAll('[data-roadmap]').forEach(function (map) { map.style.setProperty('--now', months); });
+  }
+
+  /* ---------- Project brief: ticked needs become a pre-filled email ---------- */
+  function initBrief() {
+    document.querySelectorAll('[data-brief]').forEach(function (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var needs = Array.prototype.map.call(form.querySelectorAll('input:checked'), function (box) { return '- ' + box.value; });
+        var body = 'Hi Sandra,\n\nHere is what I need help with:\n' + (needs.length ? needs.join('\n') : '- (tell me a little about it)') + '\n\nA bit of context:\n';
+        window.location.href = form.getAttribute('action') + '?subject=' + encodeURIComponent('New project brief') + '&body=' + encodeURIComponent(body);
+      });
     });
   }
 
