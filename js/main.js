@@ -16,6 +16,7 @@
     initStepper();
     initGallery();
     initVideoModal();
+    initProjectReader();
     initMediaPlayers();
     initCopyEmail();
     initSliders();
@@ -270,6 +271,47 @@
       links.forEach(function (a, i) {
         a.addEventListener('click', function (e) { e.preventDefault(); open(list, indices[i], a); });
       });
+    });
+  }
+
+  /* ---------- One readable project-details experience; native details fallback ---------- */
+  function initProjectReader() {
+    var modal = document.getElementById('project-reader-modal');
+    var entries = document.querySelectorAll('[data-project-reader]');
+    if (!modal || !entries.length || typeof modal.showModal !== 'function') return;
+    var close = modal.querySelector('[data-project-reader-close]');
+    var title = modal.querySelector('#project-reader-title');
+    var body = modal.querySelector('[data-project-reader-body]');
+    var opener = null;
+    if (!close || !title || !body) return;
+    entries.forEach(function (entry) {
+      var trigger = entry.querySelector('summary');
+      var source = entry.querySelector('.project-details-source');
+      if (!trigger || !source) return;
+      trigger.setAttribute('aria-haspopup', 'dialog');
+      trigger.setAttribute('aria-controls', 'project-reader-modal');
+      trigger.addEventListener('click', function (event) {
+        event.preventDefault();
+        entry.open = false;
+        opener = trigger;
+        title.textContent = entry.getAttribute('data-project-title');
+        body.innerHTML = source.innerHTML;
+        modal.showModal();
+        modal.scrollTop = 0;
+        close.focus();
+      });
+    });
+    function shut() { modal.close(); }
+    close.addEventListener('click', shut);
+    modal.addEventListener('cancel', function (event) { event.preventDefault(); shut(); });
+    modal.addEventListener('click', function (event) { if (event.target === modal) shut(); });
+    modal.addEventListener('close', function () {
+      body.querySelectorAll('video').forEach(function (video) { video.pause(); });
+      body.innerHTML = '';
+      if (opener) opener.focus();
+    });
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) body.querySelectorAll('video').forEach(function (video) { video.pause(); });
     });
   }
 
