@@ -1,10 +1,11 @@
-/* Optional GA4. No Google request, cookie or event until analytics consent. */
+/* Optional GA4 and Clarity. Neither analytics vendor loads before consent. */
 (function () {
   'use strict';
   if (window.sandraAnalyticsInstalled) return;
   window.sandraAnalyticsInstalled = true;
-  var id = 'G-LENWZ6VY9Z', key = 'sandra-analytics-consent-v1';
+  var id = 'G-LENWZ6VY9Z', key = 'sandra-analytics-consent-v2';
   var active = false, started = false, lastFocus = null;
+  var clarityStarted = false, clarityActive = false;
   window['ga-disable-' + id] = true;
   var projects = ['tolaram-sfa', 'frutta-secondary-sales-dashboard', 'frutta-smart-seller', 'sap-projects-readwrite', 'mplify-sfa', 'helpapp-africa', 'girl-power-foundation', 'munch-it-brand-activation'];
   var paths = ['/', '/about/', '/contact/', '/privacy/', '/work/', '/work-with-me/'].concat(projects.map(function (p) { return '/work/' + p + '/'; }));
@@ -12,14 +13,88 @@
   function pagePath(value) { return paths.indexOf(value) >= 0 ? value : '/404.html'; }
   function project(value) { return projects.indexOf(value) >= 0 ? value : null; }
   function saved() {
-    try { var c = JSON.parse(localStorage.getItem(key)); return c && c.expires > Date.now() ? c.choice : null; } catch (e) { return null; }
+    try {
+      var c = JSON.parse(localStorage.getItem(key));
+      if (c && c.expires > Date.now()) return c.choice;
+      // Previous GA-only permission does not silently authorise session recording.
+      var previous = JSON.parse(localStorage.getItem('sandra-analytics-consent-v1'));
+      if (previous && previous.expires > Date.now() && previous.choice === 'denied') {
+        localStorage.setItem(key, JSON.stringify(previous));
+        return 'denied';
+      }
+      return null;
+    } catch (e) { return null; }
   }
   function remember(choice) {
     try { localStorage.setItem(key, JSON.stringify({choice: choice, expires: Date.now() + 180 * 86400000})); } catch (e) { /* No storage: ask again next page. */ }
   }
   function gtag() { window.dataLayer.push(arguments); }
-  function event(name, params) { if (active) gtag('event', name, params || {}); }
+  function event(name, params) {
+    if (active) gtag('event', name, params || {});
+    if (clarityActive) {
+      if (params && project(params.project_id)) window.clarity('set', 'project_id', params.project_id);
+      window.clarity('event', name);
+    }
+  }
   function projectView(slug, presentation) { if (project(slug)) event('project_view', {project_id: slug, presentation: presentation}); }
+  function safeClarityUrl(value) {
+    try {
+      var url = new URL(value, location.origin);
+      if (url.origin !== location.origin) return !url.search && !url.hash && /^https?:$/.test(url.protocol);
+      var publicAsset = /^\/assets\/(?:images\/[a-z0-9\/-]+\.(?:jpg|png|svg)|video\/munchit-event\.mp4|Sandra-Aibangbee-Resume\.pdf)$/.test(url.pathname);
+      if (paths.indexOf(url.pathname) < 0 && url.pathname !== '/404.html' && !publicAsset) return false;
+      var safe = true;
+      url.searchParams.forEach(function (value, name) {
+        if (name === 'category' && ['all','crm-sfa','reporting','non-profit','operations','product','events'].indexOf(value) >= 0) return;
+        if (name === 'intro' && value === '') return;
+        safe = false;
+      });
+      if (url.hash && (!document.getElementById || !document.getElementById(decodeURIComponent(url.hash.slice(1))))) safe = false;
+      return safe;
+    } catch (e) { return false; }
+  }
+  function stopClarity() {
+    if (!clarityStarted) return;
+    clarityActive = false;
+    window.clarity('stop');
+  }
+  function startClarity() {
+    if (clarityStarted || !safeClarityUrl(location.href || location.pathname)) return;
+    if (document.referrer && !safeClarityUrl(document.referrer)) return;
+    if (document.referrer) {
+      try {
+        var referral = new URL(document.referrer);
+        // The SDK records referrers itself: omit full external referral paths too.
+        if (referral.origin !== location.origin && referral.pathname !== '/') return;
+      } catch (e) { return; }
+    }
+    clarityStarted = true;
+    clarityActive = true;
+    // Explicit root masking also covers dynamically inserted project-reader content.
+    document.documentElement.setAttribute('data-clarity-mask', 'true');
+    window.clarity = window.clarity || function () { (window.clarity.q = window.clarity.q || []).push(arguments); };
+    window.clarity('consentv2', {analytics_Storage: 'denied', ad_Storage: 'denied'});
+    window.clarity('consentv2', {analytics_Storage: 'granted', ad_Storage: 'denied'});
+    var slug = project(location.pathname.split('/')[2]);
+    if (slug) window.clarity('set', 'project_id', slug);
+    // Guard URL changes before the SDK sees them. Preserve method context/return values.
+    ['pushState','replaceState'].forEach(function (method) {
+      if (!window.history || typeof window.history[method] !== 'function') return;
+      var original = window.history[method];
+      window.history[method] = function () {
+        if (arguments[2] != null && !safeClarityUrl(String(arguments[2]))) stopClarity();
+        return original.apply(this, arguments);
+      };
+    });
+    ['popstate','hashchange'].forEach(function (type) {
+      window.addEventListener(type, function () { if (!safeClarityUrl(location.href)) stopClarity(); }, true);
+    });
+    var script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://www.clarity.ms/tag/z352inaqh8';
+    script.referrerPolicy = 'origin';
+    document.head.appendChild(script);
+  }
   function start() {
     if (!live || navigator.globalPrivacyControl === true) return;
     active = true;
@@ -50,11 +125,12 @@
     projectView(location.pathname.split('/')[2], 'page');
     var opened = document.querySelector('[data-project-reader][open]');
     if (opened) projectView(opened.getAttribute('data-project-reader'), 'details');
+    startClarity();
   }
   function clearCookies() {
     document.cookie.split(';').forEach(function (part) {
       var name = part.split('=')[0].trim();
-      if (!/^_ga(?:_|$)/.test(name)) return;
+      if (!/^(?:_ga(?:_|$)|_clck$|_clsk$)/.test(name)) return;
       ['', location.hostname, '.sandraaibangbee.com'].forEach(function (domain) {
         document.cookie = name + '=; Max-Age=0; path=/; SameSite=Lax; Secure' + (domain ? '; domain=' + domain : '');
       });
@@ -67,8 +143,12 @@
       var wasStarted = started;
       active = false;
       window['ga-disable-' + id] = true;
+      if (clarityStarted) {
+        window.clarity('consentv2', {analytics_Storage: 'denied', ad_Storage: 'denied'});
+        stopClarity();
+      }
       if (wasStarted) gtag('consent', 'update', {analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied'});
-      // Disable collection before clearing cookies; reload unloads all Google listeners.
+      // Denial alone permits cookieless Clarity collection: stop, then unload both SDKs.
       clearCookies();
       if (wasStarted) location.reload();
     }
@@ -80,7 +160,7 @@
     panel = document.createElement('section');
     panel.className = 'analytics-consent';
     panel.setAttribute('aria-label', 'Analytics privacy choices');
-    panel.innerHTML = '<p><strong>Optional analytics</strong><br>With your permission, Google Analytics measures visits and use of this portfolio, including approximate location, device and referral source. No advertising features. Your choice lasts 180 days.</p><p><a href="/privacy/">Privacy details</a></p><div><button type="button" data-analytics-choice="granted">Accept analytics</button><button type="button" data-analytics-choice="denied">Decline analytics</button></div>';
+    panel.innerHTML = '<p><strong>Optional analytics</strong><br>With your permission, Google Analytics measures visits and Microsoft Clarity records masked browsing sessions, clicks and scrolling to improve this portfolio. This includes approximate location, device and referral information. No advertising consent. Your choice lasts 180 days.</p><p><a href="/privacy/">Privacy details</a></p><div><button type="button" data-analytics-choice="granted">Accept analytics</button><button type="button" data-analytics-choice="denied">Decline analytics</button></div>';
     document.body.appendChild(panel);
     panel.querySelectorAll('[data-analytics-choice]').forEach(function (button) {
       button.addEventListener('click', function () { choose(button.getAttribute('data-analytics-choice')); });
@@ -92,7 +172,7 @@
     footer.appendChild(settings);
     panel.addEventListener('keydown', function (e) { if (e.key === 'Escape') { panel.hidden = true; if (lastFocus) lastFocus.focus(); } });
     var choice = saved();
-    if (navigator.globalPrivacyControl === true) { choice = 'denied'; panel.querySelector('[data-analytics-choice="granted"]').disabled = true; panel.querySelector('p').textContent = 'Global Privacy Control is enabled. Optional analytics is disabled.'; }
+    if (navigator.globalPrivacyControl === true) { choice = 'denied'; clearCookies(); panel.querySelector('[data-analytics-choice="granted"]').disabled = true; panel.querySelector('p').textContent = 'Global Privacy Control is enabled. Optional analytics is disabled.'; }
     panel.hidden = choice === 'granted' || choice === 'denied';
     if (choice === 'granted') start();
   }
@@ -125,6 +205,24 @@
     else if (url.pathname !== location.pathname) event('portfolio_navigation', {destination: destination});
   });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && document.documentElement.classList.contains('splash')) event('intro_skip', {method: 'escape'}); }, true);
-  window.addEventListener('storage', function (e) { if (e.key === key) location.reload(); });
+  // Clarity text masking does not redact click destinations. Do not record contact URLs
+  // or arbitrary query-bearing destinations; GA keeps its fixed-label contact event.
+  document.addEventListener('click', function (e) {
+    if (!clarityActive) return;
+    var link = e.target.closest && e.target.closest('a[href]');
+    if (!link) return;
+    var href = link.getAttribute('href');
+    if (/^(mailto:|tel:)/i.test(href) || !safeClarityUrl(href)) stopClarity();
+  }, true);
+  window.addEventListener('storage', function (e) {
+    if (e.key !== key) return;
+    active = false;
+    window['ga-disable-' + id] = true;
+    if (clarityStarted) {
+      window.clarity('consentv2', {analytics_Storage: 'denied', ad_Storage: 'denied'});
+      stopClarity();
+    }
+    location.reload();
+  });
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
