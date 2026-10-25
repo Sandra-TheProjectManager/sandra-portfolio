@@ -28,6 +28,9 @@
     initMessBoard();
     initAnimateOnce();
     initDeliveryBar();
+    initPmApp();
+    initWatClock();
+    initCommandPalette();
 
     var year = document.getElementById('year');
     if (year) year.textContent = String(new Date().getFullYear());
@@ -624,6 +627,125 @@
     window.addEventListener('resize', layout);
     window.addEventListener('load', layout);
     layout();
+  }
+
+  /* ---------- Hero "Project: Sandra" app: runs a small project from To do to Delivered.
+     The markup ships finished, so no-JS and reduced-motion visitors see the delivered board. ---------- */
+  function initPmApp() {
+    var app = document.querySelector('[data-pm-app]');
+    if (!app) return;
+    var rerun = app.querySelector('[data-pm-rerun]');
+    if (reduceMotion) { rerun.hidden = true; return; }
+    var cards = Array.prototype.slice.call(app.querySelectorAll('[data-pm-card]'));
+    var pct = app.querySelector('[data-pm-pct]');
+    var status = app.querySelector('[data-pm-status]');
+    var toasts = app.querySelector('[data-pm-toasts]');
+    var messages = ["Stakeholders mapped ✓","Requirements signed off ✓","To-be process agreed ✓","UAT passed ✓","Go-live approved ✓","Adoption on track ✓"];
+    var timers = [];
+    var later = function (fn, ms) { timers.push(window.setTimeout(fn, ms)); };
+    // Lay out a column: cards stack in the order they arrived.
+    var place = function () {
+      var rows = [0, 0, 0];
+      cards.forEach(function (card) {
+        var col = Number(card.style.getPropertyValue('--col'));
+        card.style.setProperty('--row', rows[col]++);
+      });
+    };
+    var set = function (card, col) { card.style.setProperty('--col', col); cards.push(cards.splice(cards.indexOf(card), 1)[0]); place(); };
+    var progress = function (done, moving) {
+      var value = Math.round((done + moving * 0.5) / 6 * 100);
+      pct.textContent = value + '%';
+      app.style.setProperty('--pct', value);
+    };
+    var toast = function (text) {
+      var t = document.createElement('p');
+      t.className = 'pm-toast';
+      t.textContent = text;
+      toasts.appendChild(t);
+      later(function () { t.classList.add('is-leaving'); }, 1700);
+      later(function () { t.remove(); }, 2200);
+    };
+    var run = function () {
+      timers.forEach(window.clearTimeout); timers = [];
+      toasts.innerHTML = '';
+      app.classList.remove('is-done');
+      app.classList.add('is-running');
+      var order = Array.prototype.slice.call(app.querySelectorAll('[data-pm-card]'));
+      cards = order.slice();
+      cards.forEach(function (c) { c.style.setProperty('--col', 0); });
+      place();
+      progress(0, 0);
+      status.textContent = 'Sprint in progress';
+      var t = 700, done = 0;
+      order.forEach(function (card, i) {
+        later(function () { set(card, 1); progress(done, 1); }, t);
+        t += 650;
+        later(function () { set(card, 2); done++; progress(done, 0); toast(messages[i]); }, t);
+        t += 520;
+      });
+      later(function () {
+        status.textContent = 'All tasks delivered';
+        app.classList.remove('is-running');
+        app.classList.add('is-done');
+      }, t + 200);
+    };
+    rerun.addEventListener('click', run);
+    // Start once the hero is settled (after the opening intro, if it runs).
+    later(run, document.documentElement.classList.contains('splash') ? 1700 : 500);
+  }
+
+  /* ---------- Status bar clock (Lagos, WAT) ---------- */
+  function initWatClock() {
+    var clock = document.querySelector('[data-wat-clock]');
+    if (!clock) return;
+    var tick = function () {
+      try {
+        clock.textContent = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'Africa/Lagos' }).format(new Date()) + ' WAT';
+      } catch (e) { clock.textContent = 'WAT'; }
+    };
+    var schedule = function () { tick(); window.setTimeout(schedule, 30000); };
+    schedule();
+  }
+
+  /* ---------- Command palette: Ctrl/⌘ + K, or the status bar button ---------- */
+  function initCommandPalette() {
+    var dialog = document.querySelector('[data-cmd]');
+    if (!dialog || typeof dialog.showModal !== 'function') return;
+    var input = dialog.querySelector('[data-cmd-input]');
+    var links = Array.prototype.slice.call(dialog.querySelectorAll('[data-cmd-list] a'));
+    var visible = function () { return links.filter(function (a) { return !a.parentNode.hidden; }); };
+    var active = 0;
+    var mark = function (i) {
+      var list = visible();
+      links.forEach(function (a) { a.classList.remove('is-active'); });
+      if (!list.length) return;
+      active = (i + list.length) % list.length;
+      list[active].classList.add('is-active');
+      list[active].scrollIntoView({ block: 'nearest' });
+    };
+    var open = function () {
+      if (dialog.open) return;
+      input.value = '';
+      links.forEach(function (a) { a.parentNode.hidden = false; });
+      dialog.showModal();
+      mark(0);
+      input.focus();
+    };
+    document.querySelectorAll('[data-cmd-open]').forEach(function (b) { b.addEventListener('click', open); });
+    document.addEventListener('keydown', function (e) {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) { e.preventDefault(); open(); }
+    });
+    input.addEventListener('input', function () {
+      var q = input.value.trim().toLowerCase();
+      links.forEach(function (a) { a.parentNode.hidden = q && a.textContent.toLowerCase().indexOf(q) === -1; });
+      mark(0);
+    });
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown') { e.preventDefault(); mark(active + 1); }
+      if (e.key === 'ArrowUp') { e.preventDefault(); mark(active - 1); }
+      if (e.key === 'Enter') { var list = visible(); if (list[active]) { e.preventDefault(); list[active].click(); } }
+    });
+    dialog.addEventListener('click', function (e) { if (e.target === dialog) dialog.close(); });
   }
 
 
