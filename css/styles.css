@@ -1625,3 +1625,60 @@ body:has(.project-reader-modal[open]) { overflow:hidden; }
 @keyframes story-write { from { opacity: 0; clip-path: inset(0 100% 0 0); } to { opacity: 1; clip-path: inset(0 0 0 0); } }
 @keyframes story-slide { from { opacity: 0; transform: translateX(16px); } to { opacity: 1; transform: none; } }
 @keyframes story-callout { from { border-left-width: 0; } to { border-left-width: 4px; } }
+
+/* =========================================================
+   Home motion: a delivery bar, dealt project cards, filling results,
+   pinned testimonials and section milestones.
+   ========================================================= */
+
+/* Project progress bar under the header */
+.delivery-bar { position: fixed; z-index: 49; left: 0; right: 0; top: calc(var(--header-h) - 2px); height: 4px; pointer-events: none; opacity: 0; transition: opacity .3s ease; }
+.delivery-bar.is-active { opacity: 1; }
+.delivery-bar::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(90deg, var(--line-2) 0 6px, transparent 6px 11px); opacity: .7; }
+.delivery-bar-fill { position: absolute; inset: 0; background: linear-gradient(90deg, var(--rose-mid), var(--rose)); transform: scaleX(0); transform-origin: left; }
+.delivery-bar-marks i { position: absolute; top: 50%; width: 10px; height: 10px; margin: -5px 0 0 -5px; transform: rotate(45deg); border: 2px solid var(--cocoa); border-radius: 2px; background: var(--paper); transition: background-color .3s ease, transform .3s cubic-bezier(.3, 1.6, .5, 1); }
+.delivery-bar-marks i.is-done { background: var(--rose); border-color: var(--rose); transform: rotate(45deg) scale(1.25); }
+.delivery-bar-label { position: absolute; right: max(1rem, calc((100vw - var(--container)) / 2)); top: 10px; padding: .15rem .55rem; border-radius: 999px; background: var(--cocoa); color: var(--on-dark); font: 700 .66rem/1.5 var(--font-body); letter-spacing: .08em; text-transform: uppercase; font-variant-numeric: tabular-nums; }
+@media (max-width: 760px) { .delivery-bar-label { display: none; } .delivery-bar-marks i { width: 8px; height: 8px; margin: -4px 0 0 -4px; } }
+
+/* Section milestones: a diamond lands on each kicker line as the section arrives */
+.section-head .kicker { position: relative; }
+.section-head .kicker::after { content: ""; position: absolute; left: 16px; top: 50%; width: 8px; height: 8px; margin-top: -4px; transform: rotate(45deg); border-radius: 1px; background: currentColor; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .js .section-head.reveal .kicker::after { scale: 0; }
+  .js .section-head.reveal.is-visible .kicker::after { animation: kicker-land .6s cubic-bezier(.3, 1.6, .5, 1) .35s both; }
+  .js .section-head.reveal .kicker::before { transform: scaleX(0); transform-origin: left; transition: transform .5s var(--ease) .1s; }
+  .js .section-head.reveal.is-visible .kicker::before { transform: none; }
+
+  /* Home Kanban: cards are dealt onto the board */
+  .js .kanban--home.is-waiting .kanban-cards > li { opacity: 0; }
+  .js .kanban--home.is-in .kanban-cards > li { animation: card-dealt .7s cubic-bezier(.25, 1.2, .4, 1) both; }
+  .js .kanban--home.is-in .kanban-col:nth-child(1) li { animation-delay: .05s; }
+  .js .kanban--home.is-in .kanban-col:nth-child(2) li { animation-delay: .2s; }
+  .js .kanban--home.is-in .kanban-col:nth-child(3) li { animation-delay: .35s; }
+  .js .kanban--home.is-in .kanban-col:nth-child(4) li { animation-delay: .5s; }
+  .js .kanban--home.is-in .kanban-col--open li { animation-delay: .75s; }
+  .js .kanban--home.is-in .kanban-col--open li + li { animation-delay: .9s; }
+
+  /* Results: each figure fills a small progress bar while it counts */
+  .numbers li { position: relative; }
+  .numbers li::after { content: ""; position: absolute; left: clamp(1rem, 2vw, 1.5rem); right: clamp(1rem, 2vw, 1.5rem); bottom: .9rem; height: 3px; border-radius: 2px; background: var(--rose); transform: scaleX(0); transform-origin: left; }
+  .js .numbers.is-visible li::after { transition: transform 1.4s cubic-bezier(.2, .7, .2, 1); transform: scaleX(1); }
+  .js .numbers.is-visible li:nth-child(2)::after { transition-delay: .12s; }
+  .js .numbers.is-visible li:nth-child(3)::after { transition-delay: .24s; }
+  .js .numbers.is-visible li:nth-child(4)::after { transition-delay: .36s; }
+  .js .numbers.is-visible li:nth-child(5)::after { transition-delay: .48s; }
+
+  /* Testimonials: each note is pinned to the board */
+  .js .slider-track.is-waiting .quote-sheet { opacity: 0; }
+  .js .slider-track.is-in .quote-sheet { animation: note-pinned .8s cubic-bezier(.3, 1.3, .5, 1) both; transform-origin: 50% 0; }
+  .js .slider-track.is-in .quote-sheet:nth-child(2) { animation-delay: .15s; }
+  .js .slider-track.is-in .quote-sheet:nth-child(3) { animation-delay: .3s; }
+  .js .slider-track.is-in .quote-sheet:nth-child(4) { animation-delay: .45s; }
+  .js .slider-track.is-in .quote-sheet:nth-child(5) { animation-delay: .6s; }
+}
+@keyframes kicker-land { 0% { scale: 0; translate: 0 -10px; } 100% { scale: 1; translate: 0 0; } }
+@keyframes card-dealt { 0% { opacity: 0; transform: translate(-40px, -30px) rotate(-8deg); } 100% { opacity: 1; transform: none; } }
+@keyframes note-pinned { 0% { opacity: 0; transform: translateY(-26px) rotate(-6deg); } 60% { opacity: 1; transform: rotate(2deg); } 100% { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .delivery-bar-marks i { transition: none; } }

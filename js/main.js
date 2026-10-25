@@ -26,6 +26,8 @@
     initSiteRoadmap();
     initCountUp();
     initMessBoard();
+    initAnimateOnce();
+    initDeliveryBar();
 
     var year = document.getElementById('year');
     if (year) year.textContent = String(new Date().getFullYear());
@@ -567,6 +569,61 @@
       sortSoon();
     }, { threshold: 0.6 });
     watcher.observe(board);
+  }
+
+  /* ---------- Play an entrance once when an element scrolls into view ([data-animate-once] → .is-in) ---------- */
+  function initAnimateOnce() {
+    var items = document.querySelectorAll('[data-animate-once]');
+    if (!items.length) return;
+    if (reduceMotion || !('IntersectionObserver' in window)) { items.forEach(function (el) { el.classList.add('is-in'); }); return; }
+    var watcher = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-in');
+        watcher.unobserve(entry.target);
+      });
+    }, { threshold: 0.25 });
+    items.forEach(function (el) { el.classList.add('is-waiting'); watcher.observe(el); });
+  }
+
+  /* ---------- Home: a project progress bar that follows the scroll, with a milestone per section ---------- */
+  function initDeliveryBar() {
+    var bar = document.querySelector('[data-delivery-bar]');
+    if (!bar) return;
+    var fill = bar.querySelector('.delivery-bar-fill');
+    var marks = bar.querySelector('.delivery-bar-marks');
+    var label = bar.querySelector('.delivery-bar-label');
+    var sections = Array.prototype.filter.call(document.querySelectorAll('main > section[aria-labelledby]'), function (s) { return !s.classList.contains('hero'); });
+    var points = [];
+    var layout = function () {
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      marks.innerHTML = '';
+      points = sections.map(function (s) {
+        var at = Math.min(1, Math.max(0, (s.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.6) / max));
+        var mark = document.createElement('i');
+        mark.style.left = (at * 100) + '%';
+        marks.appendChild(mark);
+        return { at: at, mark: mark };
+      });
+      update();
+    };
+    var update = function () {
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      var p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+      fill.style.transform = 'scaleX(' + p + ')';
+      label.textContent = Math.round(p * 100) + '% delivered';
+      bar.classList.toggle('is-active', window.scrollY > 40);
+      points.forEach(function (pt) { pt.mark.classList.toggle('is-done', p >= pt.at); });
+    };
+    var pending = false;
+    window.addEventListener('scroll', function () {
+      if (pending) return;
+      pending = true;
+      window.requestAnimationFrame(function () { pending = false; update(); });
+    }, { passive: true });
+    window.addEventListener('resize', layout);
+    window.addEventListener('load', layout);
+    layout();
   }
 
 
