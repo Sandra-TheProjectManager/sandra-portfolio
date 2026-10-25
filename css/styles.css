@@ -1834,3 +1834,6 @@ body { padding-bottom: 30px; }
 @keyframes made-thunk { 0% { transform: rotate(-6deg) scale(1.5); } 100% { transform: rotate(-6deg) scale(1); } }
 .sb-made { color: #f3c9d3; }
 @media (max-width: 600px) { .made-by { align-items: flex-start; } }
+.approved-project-cover--girl-power-foundation .approved-cover-image { background: #fff; }
+.project-card .approved-project-cover--girl-power-foundation .approved-cover-image img { width: 72%; height: auto; margin: auto; }
+.story-opening .story-figure img[src*="girl-power-foundation.png"], .project-reader-figure img[src*="girl-power-foundation.png"] { width: min(70%, 420px); margin: 2.5rem auto; }
