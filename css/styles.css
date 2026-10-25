@@ -1470,3 +1470,10 @@ body:has(.project-reader-modal[open]) { overflow:hidden; }
 .ws-note svg { margin: .15rem -2.6rem 0 0; }
 .ws-process { left: -18%; }
 .final-checkpoint path { vector-effect: non-scaling-stroke; }
+
+/* Hero milestone line: dashed, flowing along the path like work in motion (the earlier wire style). */
+.milestone-line path { stroke-dasharray: 5 6; opacity: .55; vector-effect: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .milestone-line path { animation: wire-flow 2.6s linear infinite; }
+  .hero-workspace:hover .milestone-line path { animation-duration: 1.2s; }
+}
