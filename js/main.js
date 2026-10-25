@@ -25,6 +25,7 @@
     initToolbox();
     initSiteRoadmap();
     initCountUp();
+    initMessBoard();
 
     var year = document.getElementById('year');
     if (year) year.textContent = String(new Date().getFullYear());
@@ -534,6 +535,38 @@
       window.requestAnimationFrame(tick);
     }, { threshold: 0.4 });
     observer.observe(strip);
+  }
+
+  /* ---------- Hero: the messy notes sort themselves into See · Plan · Do · Review.
+     The markup ships sorted, so no-JS and reduced-motion visitors see the finished board. ---------- */
+  function initMessBoard() {
+    var board = document.querySelector('[data-mess-board]');
+    if (!board) return;
+    var button = board.querySelector('[data-mess-toggle]');
+    var touched = false;
+    var set = function (sorted) {
+      board.classList.toggle('is-sorted', sorted);
+      button.firstChild.textContent = sorted ? 'Mess it up again' : 'Sort it out';
+      button.lastChild.textContent = sorted ? '↺' : '▸';
+    };
+    button.addEventListener('click', function () {
+      touched = true;
+      set(!board.classList.contains('is-sorted'));
+    });
+    if (reduceMotion) return;
+    board.classList.add('is-instant');
+    set(false);
+    void board.offsetWidth;
+    board.classList.remove('is-instant');
+    // Sort once the board is on screen, so visitors further down the page still see it happen.
+    var sortSoon = function () { window.setTimeout(function () { if (!touched) set(true); }, 1400); };
+    if (!('IntersectionObserver' in window)) { sortSoon(); return; }
+    var watcher = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting) return;
+      watcher.disconnect();
+      sortSoon();
+    }, { threshold: 0.6 });
+    watcher.observe(board);
   }
 
 
