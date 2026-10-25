@@ -1591,3 +1591,37 @@ body:has(.project-reader-modal[open]) { overflow:hidden; }
 .story-opening .story-figure img { max-height: 360px; }
 @media (max-width: 600px) { .story-opening .story-figure img { max-height: 240px; } }
 .story-body .story-nav { display: block; padding-block: 1rem 0; }
+
+/* Project stories: motion that plays once as each part scrolls into view. */
+@media (prefers-reduced-motion: no-preference) {
+  .js .story-body .story-role.reveal { box-shadow: 0 0 0 var(--accent); transition: opacity .6s ease, transform .6s var(--ease), box-shadow .5s var(--ease) .35s; }
+  .js .story-body .story-role.reveal.is-visible { box-shadow: 4px 4px 0 var(--accent); }
+
+  .js .story-body .reveal .story-artifact-sheet > div,
+  .js .story-body .reveal.story-questions li,
+  .js .story-body .reveal .story-compare-grid > div:last-child li,
+  .js .story-body .reveal.story-timeline li { opacity: 0; }
+  .js .story-body .reveal.story-timeline li::before { transform: scaleX(0); transform-origin: left; }
+
+  .js .story-body .is-visible.story-timeline li { animation: story-step .5s var(--ease) both; animation-delay: calc(.25s + var(--n, 0) * .28s); }
+  .js .story-body .is-visible.story-timeline li::before { transition: transform .5s var(--ease); transition-delay: calc(.35s + var(--n, 0) * .28s); transform: none; }
+  .js .story-body .is-visible.story-timeline li::after { animation: story-pop .45s cubic-bezier(.3, 1.6, .5, 1) both; animation-delay: calc(.25s + var(--n, 0) * .28s); }
+
+  .js .story-body .is-visible .story-compare-grid > div:last-child li { animation: story-tick .45s var(--ease) both; animation-delay: calc(.4s + var(--n, 0) * .18s); }
+  .js .story-body .is-visible .story-artifact-sheet > div { animation: story-write .5s ease both; animation-delay: calc(.2s + var(--n, 0) * .2s); }
+  .js .story-body .is-visible.story-questions li { animation: story-slide .5s var(--ease) both; animation-delay: calc(.15s + var(--n, 0) * .15s); }
+  .js .story-body .is-visible.story-callout { animation: story-callout .7s var(--ease) both; }
+
+  /* Stagger index for up to six children. */
+  .story-body li:nth-child(2), .story-artifact-sheet > div:nth-child(2) { --n: 1; }
+  .story-body li:nth-child(3), .story-artifact-sheet > div:nth-child(3) { --n: 2; }
+  .story-body li:nth-child(4), .story-artifact-sheet > div:nth-child(4) { --n: 3; }
+  .story-body li:nth-child(5), .story-artifact-sheet > div:nth-child(5) { --n: 4; }
+  .story-body li:nth-child(6), .story-artifact-sheet > div:nth-child(6) { --n: 5; }
+}
+@keyframes story-step { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes story-pop { from { scale: 0; } to { scale: 1; } }
+@keyframes story-tick { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: none; } }
+@keyframes story-write { from { opacity: 0; clip-path: inset(0 100% 0 0); } to { opacity: 1; clip-path: inset(0 0 0 0); } }
+@keyframes story-slide { from { opacity: 0; transform: translateX(16px); } to { opacity: 1; transform: none; } }
+@keyframes story-callout { from { border-left-width: 0; } to { border-left-width: 4px; } }
