@@ -1822,3 +1822,15 @@ body { padding-bottom: 30px; }
   .intro-desk { margin-top: 1rem; }
 }
 .sb-replay { text-decoration: none; }
+
+/* Footer: this site as a delivered project */
+.made-by { display: flex; align-items: center; gap: 1rem; margin-top: 2rem; padding: 1rem 1.2rem; border: 1.5px dashed var(--line-2); border-radius: 14px; background: var(--surface); }
+.made-by p { margin: 0; font-size: .95rem; color: var(--ink); }
+.made-by b { color: var(--ink-strong); }
+.made-by-stamp { flex: none; padding: .35rem .6rem; border: 2px solid var(--rose); outline: 1px solid var(--rose); outline-offset: 2px; border-radius: 4px; color: var(--rose); font: 800 .72rem/1 var(--font-body); letter-spacing: .14em; transform: rotate(-6deg); }
+@media (prefers-reduced-motion: no-preference) {
+  .made-by:hover .made-by-stamp { animation: made-thunk .45s cubic-bezier(.3, 1.6, .5, 1); }
+}
+@keyframes made-thunk { 0% { transform: rotate(-6deg) scale(1.5); } 100% { transform: rotate(-6deg) scale(1); } }
+.sb-made { color: #f3c9d3; }
+@media (max-width: 600px) { .made-by { align-items: flex-start; } }
