@@ -665,7 +665,8 @@
       later(function () { t.classList.add('is-leaving'); }, 1700);
       later(function () { t.remove(); }, 2200);
     };
-    var run = function () {
+    var run = function (delay) {
+      delay = typeof delay === 'number' ? delay : 0;
       timers.forEach(window.clearTimeout); timers = [];
       toasts.innerHTML = '';
       app.classList.remove('is-done');
@@ -676,7 +677,7 @@
       place();
       progress(0, 0);
       status.textContent = 'Sprint in progress';
-      var t = 700, done = 0;
+      var t = 700 + delay, done = 0;
       order.forEach(function (card, i) {
         later(function () { set(card, 1); progress(done, 1); }, t);
         t += 650;
@@ -689,9 +690,10 @@
         app.classList.add('is-done');
       }, t + 200);
     };
-    rerun.addEventListener('click', run);
+    rerun.addEventListener('click', function () { run(0); });
     // Start once the hero is settled (after the opening intro, if it runs).
-    later(run, document.documentElement.classList.contains('splash') ? 1700 : 500);
+    // Reset to To do straight away; during the opening intro, wait for it to lift before moving cards.
+    run(document.documentElement.classList.contains('splash') ? 3100 : 0);
   }
 
   /* ---------- Status bar clock (Lagos, WAT) ---------- */
