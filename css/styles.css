@@ -1375,3 +1375,98 @@ body:has(.project-reader-modal[open]) { overflow:hidden; }
 .pmba-key span { display: inline-flex; align-items: center; gap: .45rem; }
 @media (max-width: 600px) { .note-tool .pmba { font-size: .5rem; padding: .05rem .25rem; } }
 @media (max-width: 600px) { .mess-owner { width: 22%; bottom: -9%; } }
+
+/* =========================================================
+   Project workspace refinement
+   Decorative fragments are aria-hidden, unclickable, and quieter than real controls.
+   ========================================================= */
+
+/* Hero background: planner grid at the right edge only, so the reading area stays calm. */
+.hero > .container { position: relative; z-index: 1; }
+.hero::after {
+  content: ""; position: absolute; top: 0; bottom: 0; right: 0; width: 55%; pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 55% at 70% 48%, rgba(243, 221, 226, .75), transparent 70%),
+    linear-gradient(rgba(210, 193, 166, .35) 1px, transparent 1px) 0 0 / 100% 46px,
+    linear-gradient(90deg, rgba(210, 193, 166, .35) 1px, transparent 1px) 0 0 / 46px 100%;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 35%); mask-image: linear-gradient(90deg, transparent, #000 35%);
+}
+
+/* Milestone line with connected checkpoints (done · done · now · next). */
+.hero-workspace .milestone-line { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.milestone-line path { fill: none; stroke: var(--ink-strong); stroke-width: 1.6; stroke-linecap: round; opacity: .45; vector-effect: non-scaling-stroke; }
+.checkpoint { position: absolute; left: var(--x); top: var(--y); width: 14px; height: 14px; margin: -7px 0 0 -7px; transform: rotate(45deg); border: 2px solid var(--ink-strong); border-radius: 2px; background: var(--paper); }
+.checkpoint--done { background: var(--ink-strong); }
+.checkpoint--now { width: 16px; height: 16px; margin: -8px 0 0 -8px; background: var(--rose); border-color: var(--rose); box-shadow: 0 0 0 5px var(--rose-soft); }
+
+/* Shared look for the small fragments: paper, dashed edges, no button affordances. */
+.ws { position: absolute; z-index: 2; margin: 0; pointer-events: none; user-select: none; color: var(--muted); }
+.ws-process { left: -12%; top: 5%; display: flex; align-items: center; gap: .4rem; padding: .45rem .7rem; border: 1px dashed var(--line-2); border-radius: 8px; background: rgba(255, 253, 248, .92); font: 600 .74rem/1 var(--font-body); letter-spacing: .04em; }
+.ws-process span { color: var(--ink-strong); }
+.ws-process span:last-child { color: var(--rose); }
+.ws-process i { font-style: normal; color: var(--line-2); }
+.ws-note { right: -10%; top: 37%; display: flex; flex-direction: column; align-items: flex-start; font: 500 1.3rem/1 var(--font-note); color: var(--rose); transform: rotate(-5deg); }
+.ws-note svg { width: 46px; height: 23px; margin: 0 0 .1rem -1.2rem; stroke: var(--rose); stroke-width: 1.6; stroke-linecap: round; }
+.ws-tasks { --col: 64px; --gap: 6px; left: -14%; bottom: 3%; display: grid; grid-template-columns: repeat(3, var(--col)); gap: var(--gap); padding: .55rem; border: 1px dashed var(--line-2); border-radius: 10px; background: rgba(255, 253, 248, .94); }
+.ws-tasks div { display: grid; gap: 4px; align-content: start; }
+.ws-tasks b { font: 700 .56rem/1.2 var(--font-body); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+.ws-tasks i { display: block; height: 12px; border-radius: 3px; background: var(--paper-2); border: 1px solid var(--line); }
+.ws-tasks i.short { width: 70%; }
+.ws-tasks i.done, .ws-mover { background: #d7e6d8; border-color: #a9c3ad; }
+/* The task that moves from In progress to Delivered (lands under the existing delivered card). */
+.ws-mover { position: absolute; left: calc(.55rem + 2 * (var(--col) + var(--gap))); top: calc(.55rem + .56rem * 1.2 + 4px + 12px + 4px); width: var(--col); }
+
+/* Process map (How I work tabs): connector fills to the selected step; earlier steps read as done. */
+.stepper::after { content: ""; position: absolute; left: 12.5%; top: 26px; height: 3px; width: var(--fill, 0%); border-radius: 2px; background: var(--rose); transition: width .5s var(--ease); }
+.stepper:has(.step-btn:nth-child(2)[aria-selected="true"]) { --fill: 25%; }
+.stepper:has(.step-btn:nth-child(3)[aria-selected="true"]) { --fill: 50%; }
+.stepper:has(.step-btn:nth-child(4)[aria-selected="true"]) { --fill: 75%; }
+.step-btn .marker { position: relative; z-index: 1; }
+.step-btn:has(~ .step-btn[aria-selected="true"]) .marker { background: var(--rose-soft); border-color: var(--rose); color: var(--rose); }
+
+/* Work boards: a faint line connecting the lanes, like a delivery flow. */
+@media (min-width: 1001px) {
+  .kanban { position: relative; }
+  .kanban::before { content: ""; position: absolute; left: 1.5rem; right: 1.5rem; top: 1.55rem; border-top: 2px dashed var(--line-2); }
+  .kanban-col { position: relative; }
+}
+
+/* About: experience timeline markers become milestone diamonds. */
+.role::before { border-radius: 2px; transform: rotate(45deg); width: 15px; height: 15px; }
+.role:first-child::before { box-shadow: 0 0 0 5px var(--rose-soft); }
+
+/* Contact: the final delivery checkpoint. */
+.page-head-checkpoint { position: relative; }
+.final-checkpoint { position: relative; width: min(100%, 360px); height: 72px; margin-top: 1.6rem; }
+.final-checkpoint svg { position: absolute; inset: 0 0 12px; width: 100%; height: 60px; overflow: visible; }
+.final-checkpoint path { stroke: var(--ink-strong); stroke-width: 1.6; stroke-linecap: round; opacity: .45; }
+.fc { position: absolute; left: var(--x); top: calc(var(--y) * .83); width: 13px; height: 13px; margin: -6px 0 0 -6px; transform: rotate(45deg); border-radius: 2px; background: var(--ink-strong); }
+.fc--final { width: 18px; height: 18px; margin: -9px 0 0 -9px; background: var(--rose); box-shadow: 0 0 0 5px var(--rose-soft); }
+.fc-flag { position: absolute; right: -2%; top: -12px; font: 500 1.15rem/1 var(--font-note); color: var(--rose); transform: rotate(-3deg); white-space: nowrap; }
+
+/* Small screens: keep the portrait and milestone line; drop the fragments. */
+@media (max-width: 760px) {
+  .hero::after { width: 100%; opacity: .5; }
+  .ws { display: none; }
+  .fc-flag { position: static; display: block; margin-top: 3.6rem; transform: none; }
+  .final-checkpoint { height: auto; min-height: 92px; }
+}
+
+/* Purposeful motion, once: the line draws, checkpoints settle, one task moves to Delivered. */
+@media (prefers-reduced-motion: no-preference) {
+  .milestone-line path, .final-checkpoint path { stroke-dasharray: 1; animation: ws-draw 1.6s var(--ease) .5s both; }
+  .checkpoint, .fc { animation: ws-pop .4s cubic-bezier(.3, 1.5, .5, 1) both; animation-delay: calc(1s + var(--i) * 220ms); }
+  .ws-mover { animation: ws-deliver .9s var(--ease) 2.4s both; }
+  html.intro .milestone-line path, html.intro .checkpoint, html.intro .ws-mover { animation-play-state: paused; }
+}
+@keyframes ws-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes ws-pop { from { opacity: 0; scale: .3; } to { opacity: 1; scale: 1; } }
+@keyframes ws-deliver {
+  0% { transform: translateX(calc(-1 * (var(--col) + var(--gap)))); background: var(--paper-2); border-color: var(--line); }
+  70% { transform: none; }
+  100% { transform: none; background: #d7e6d8; border-color: #a9c3ad; }
+}
+.ws-note { right: auto; left: -19%; top: 44%; align-items: flex-end; text-align: right; line-height: 1.05; transform: rotate(-4deg); }
+.ws-note svg { margin: .15rem -2.6rem 0 0; }
+.ws-process { left: -18%; }
+.final-checkpoint path { vector-effect: non-scaling-stroke; }

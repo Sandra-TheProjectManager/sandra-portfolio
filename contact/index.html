@@ -27,7 +27,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap"></noscript>
-  <link rel="stylesheet" href="/css/styles.css?v=a289a5aed3">
+  <link rel="stylesheet" href="/css/styles.css?v=0c48c925f0">
   <script>
     document.documentElement.classList.add('js');
     setTimeout(function () { var r = document.documentElement; if (!r.classList.contains('ready')) r.classList.remove('js'); }, 2500);
@@ -79,10 +79,15 @@
 
   <main id="main">
     <header class="page-head dotgrid">
-      <div class="container">
+      <div class="container page-head-checkpoint">
         <p class="kicker">Contact</p>
         <h1>Let's build something <span class="em-link">that actually ships.</span></h1>
         <p class="lead">Whether you need a project manager who understands operations, or an analyst who can turn data into decisions — I'd love to hear what you're working on.</p>
+        <div class="final-checkpoint" aria-hidden="true">
+          <svg viewBox="0 0 300 60" preserveAspectRatio="none" fill="none"><path pathLength="1" d="M8 44 C 70 44, 90 16, 150 16 S 230 40, 270 30"/></svg>
+          <span class="fc fc--done" style="--x:2.7%;--y:73%;--i:0"></span><span class="fc fc--done" style="--x:50%;--y:27%;--i:1"></span><span class="fc fc--final" style="--x:90%;--y:50%;--i:2"></span>
+          <span class="fc-flag">Final checkpoint: your project</span>
+        </div>
       </div>
     </header>
 

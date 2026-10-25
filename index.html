@@ -30,7 +30,7 @@
   
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap"></noscript>
-  <link rel="stylesheet" href="/css/styles.css?v=a289a5aed3">
+  <link rel="stylesheet" href="/css/styles.css?v=0c48c925f0">
   <link rel="preload" as="image" href="/assets/images/sandra-hero.jpg">
 
   <script>
@@ -151,9 +151,9 @@
             <li class="tag tag--sand">Reporting</li>
           </ul>
           <h1 id="hero-heading" class="hero-title hero-anim" style="--d:80ms">
-            I see the mess. I build <span class="em-link">the system</span> and deliver the result.
+            From business needs to <span class="em-link">projects delivered.</span>
           </h1>
-          <p class="lead hero-lede hero-anim" style="--d:160ms">I’m Sandra Aibangbee, a Project Manager, Business Analyst and Operations Professional based in Lagos, Nigeria. I bring clarity to complex business challenges, improve how teams work and turn business needs into practical systems and well-delivered projects across FMCG, technology and consulting, from CRM and sales-force automation rollouts to sales operations and reporting.</p>
+          <p class="lead hero-lede hero-anim" style="--d:160ms">I’m Sandra Aibangbee, a Project Manager, Business Analyst and Operations Professional. I connect requirements, people and processes to move work forward.</p>
           <div class="btn-row hero-anim" style="--d:240ms">
             <a class="btn btn-primary" href="/work/">See My Work <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
             <a class="btn btn-ghost" href="/assets/Sandra-Aibangbee-Resume.pdf" download="Sandra-Aibangbee-Resume.pdf">
@@ -162,21 +162,23 @@
           </div>
         </div>
 
-        <div class="hero-board hero-anim" style="--d:120ms">
-          <svg class="wires" viewBox="0 0 470 560" preserveAspectRatio="none" aria-hidden="true">
-            <path d="M70 92 C 60 10, 400 -10, 410 236"/>
-            <path d="M410 292 C 420 470, 300 520, 200 520"/>
-            <circle cx="70" cy="92" r="6"/>
-            <circle cx="410" cy="236" r="6"/>
-            <circle cx="410" cy="292" r="6"/>
-            <circle cx="200" cy="520" r="6"/>
-          </svg>
+        <div class="hero-board hero-workspace hero-anim" style="--d:120ms">
+          <svg class="milestone-line" viewBox="0 0 470 560" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M58 128 C 40 30, 330 -20, 430 120 S 470 420, 330 540"/></svg>
+          <span class="checkpoint checkpoint--done" style="--x:12.3%;--y:22.9%;--i:0" aria-hidden="true"></span>
+          <span class="checkpoint checkpoint--done" style="--x:91.5%;--y:21.4%;--i:1" aria-hidden="true"></span>
+          <span class="checkpoint checkpoint--now" style="--x:100%;--y:60.3%;--i:2" aria-hidden="true"></span>
+          <span class="checkpoint" style="--x:70.2%;--y:96.4%;--i:3" aria-hidden="true"></span>
           <figure class="portrait">
             <img width="864" height="1080" decoding="async" src="/assets/images/sandra-hero.jpg" alt="Portrait of Sandra Aibangbee in a dark blazer, arms folded" fetchpriority="high">
           </figure>
-          <span class="node node--a"><span class="pin"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg></span>CRM / SFA rollouts</span>
-          <span class="node node--b"><span class="pin"><svg class="icon" aria-hidden="true"><use href="#i-route"/></svg></span>Sales operations</span>
-          <span class="node node--c"><span class="pin"><svg class="icon" aria-hidden="true"><use href="#i-chart"/></svg></span>Reporting &amp; dashboards</span>
+          <p class="ws ws-process" aria-hidden="true"><span>Discover</span><i>→</i><span>Define</span><i>→</i><span>Deliver</span></p>
+          <p class="ws ws-note" aria-hidden="true">Clarity before<br>execution<svg viewBox="0 0 60 30" fill="none"><path d="M4 6 C 20 2, 42 8, 54 22 M54 22 L 53 12 M54 22 L 44 20"/></svg></p>
+          <div class="ws ws-tasks" aria-hidden="true">
+            <div><b>Planned</b><i></i><i class="short"></i></div>
+            <div><b>In progress</b><i></i></div>
+            <div><b>Delivered</b><i class="done"></i></div>
+            <i class="ws-mover"></i>
+          </div>
         </div>
       </div>
     </section>
@@ -339,7 +341,7 @@
     </section>
 
     
-    <section class="section section--tint" aria-labelledby="process-heading">
+    <section class="section section--tint process-section" aria-labelledby="process-heading">
       <div class="container process">
         <header class="reveal">
           <p class="kicker">How I work</p>
