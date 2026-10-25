@@ -174,7 +174,8 @@
     panel = document.createElement('section');
     panel.className = 'analytics-consent';
     panel.setAttribute('aria-label', 'Analytics privacy choices');
-    panel.innerHTML = '<p><strong>Optional analytics</strong><br>With your permission, Google Analytics measures visits and Microsoft Clarity records masked browsing sessions, clicks and scrolling to improve this portfolio. This includes approximate location, device and referral information. No advertising consent. Your choice lasts 180 days.</p><p><a href="/privacy/">Privacy details</a></p><div><button type="button" data-analytics-choice="granted">Accept analytics</button><button type="button" data-analytics-choice="denied">Decline analytics</button></div>';
+    // Short notice; the full disclosure (GA4, masked Clarity sessions, 180 days) lives on /privacy/.
+    panel.innerHTML = '<p>We use optional analytics to improve your experience. <a href="/privacy/">Privacy</a></p><div><button type="button" data-analytics-choice="denied">No thanks</button><button type="button" data-analytics-choice="granted">Allow</button></div>';
     document.body.appendChild(panel);
     panel.querySelectorAll('[data-analytics-choice]').forEach(function (button) {
       button.addEventListener('click', function () { choose(button.getAttribute('data-analytics-choice')); });
@@ -188,6 +189,17 @@
     var choice = saved();
     if (navigator.globalPrivacyControl === true) { choice = 'denied'; clearCookies(); panel.querySelector('[data-analytics-choice="granted"]').disabled = true; panel.querySelector('p').textContent = 'Global Privacy Control is enabled. Optional analytics is disabled.'; }
     panel.hidden = choice === 'granted' || choice === 'denied';
+    // Never sit on top of the homepage's opening intro: appear once it has finished.
+    var root = document.documentElement;
+    if (!panel.hidden && root.classList.contains('splash')) {
+      panel.hidden = true;
+      var waiting = new MutationObserver(function () {
+        if (root.classList.contains('splash')) return;
+        waiting.disconnect();
+        if (!saved()) panel.hidden = false;
+      });
+      waiting.observe(root, {attributes: true, attributeFilter: ['class']});
+    }
     if (choice === 'granted') start();
   }
   // Capture only fixed labels and allowlisted slugs/paths, never text, email addresses,

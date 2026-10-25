@@ -1,3 +1,19 @@
-/* Privacy controls only; existing portfolio design is unchanged. */
-.analytics-consent{position:fixed;z-index:450;bottom:1rem;left:1rem;width:min(440px,calc(100% - 2rem));max-height:calc(100dvh - 2rem);overflow:auto;padding:1.25rem;background:#fbf7ec;color:#3b241d;border:1px solid #cbaab0;border-radius:12px;box-shadow:0 8px 35px #3b241d24;font:400 .9rem/1.6 var(--font-body,system-ui)}
-.analytics-consent[hidden]{display:none}.analytics-consent p{margin:0 0 .7rem}.analytics-consent a{color:inherit;text-decoration:underline}.analytics-consent>div{display:flex;gap:.6rem;flex-wrap:wrap}.analytics-consent button{flex:1;min-height:44px;padding:.55rem .8rem;border:1px solid #805e61;border-radius:7px;background:#f3e1e4;color:#3b241d;font:600 .85rem/1.3 var(--font-body,system-ui);cursor:pointer}.analytics-consent button:focus-visible,.analytics-settings:focus-visible{outline:2px solid #a84862;outline-offset:3px}.analytics-settings{display:block;margin-top:1rem;border:0;background:transparent;color:inherit;font:inherit;font-size:.85rem;text-decoration:underline;cursor:pointer;min-height:44px;padding:.4rem 0}.analytics-consent button:disabled{opacity:.6;cursor:default}
+/* Privacy controls: a small, non-modal consent bar in the bottom-right corner. */
+.analytics-consent{position:fixed;z-index:450;right:1rem;bottom:calc(30px + .9rem);display:flex;align-items:center;gap:.9rem;width:max-content;max-width:min(430px,calc(100% - 2rem));padding:.6rem .6rem .6rem 1rem;background:#fffdf8;color:#4a372f;border:1px solid #e3d6c1;border-radius:14px;box-shadow:0 10px 28px -14px #3b241d59;font:400 .82rem/1.45 var(--font-body,system-ui)}
+.analytics-consent[hidden]{display:none}
+.analytics-consent p{margin:0}
+.analytics-consent a{color:#a84862;text-decoration:underline;text-underline-offset:2px;white-space:nowrap}
+.analytics-consent>div{display:flex;gap:.4rem;flex:none}
+.analytics-consent button{min-height:36px;padding:.4rem .85rem;border:1px solid #d2c1a6;border-radius:999px;background:#f9ecee;color:#3b241d;font:600 .78rem/1.2 var(--font-body,system-ui);cursor:pointer;transition:background-color .15s ease,border-color .15s ease}
+.analytics-consent button:hover{background:#f3dde2;border-color:#a84862}
+.analytics-consent button:focus-visible,.analytics-settings:focus-visible,.analytics-consent a:focus-visible{outline:2px solid #a84862;outline-offset:2px}
+.analytics-consent button:disabled{opacity:.6;cursor:default}
+.analytics-settings{display:block;margin-top:1rem;border:0;background:transparent;color:inherit;font:inherit;font-size:.85rem;text-decoration:underline;cursor:pointer;min-height:44px;padding:.4rem 0}
+@media (max-width:600px){
+  .analytics-consent{left:.75rem;right:.75rem;bottom:calc(30px + .6rem);width:auto;max-width:none;flex-wrap:wrap;gap:.5rem .75rem;padding:.55rem .6rem .55rem .85rem}
+  .analytics-consent p{flex:1 1 12rem}
+  .analytics-consent>div{margin-left:auto}
+  .analytics-consent button{min-height:40px}
+}
+@media (prefers-reduced-motion:no-preference){.analytics-consent:not([hidden]){animation:consent-in .35s ease both}}
+@keyframes consent-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
