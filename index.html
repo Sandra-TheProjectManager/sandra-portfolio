@@ -42,19 +42,17 @@
         if (!root.classList.contains('ready')) root.classList.remove('js');
       }, 2500);
 
-      // Opening intro: plays whenever someone arrives at Home from outside the site or reloads it;
-      // skipped when they click Home from another page of this site. ?intro always replays it.
+      // Opening intro: plays every time Home loads, except Back/Forward navigation,
+      // deep links (#section), reduced motion and ?review. ?intro always plays it.
       // The animation is pure CSS (5s, hides itself); this only decides whether to show it
       // and guarantees removal. It never waits for fonts, images or main.js,
       // never moves focus and never locks scrolling.
       try {
         var nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
-        var reload = nav && nav.type === 'reload';
-        var internal = document.referrer && new URL(document.referrer).host === location.host;
+        var backForward = nav && nav.type === 'back_forward';
         var forced = /(^|[?&])intro(=|&|$)/.test(location.search);
         var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        // Skip for in-site navigation, reduced motion, deep links (#section) and ?review.
-        if (!forced && ((internal && !reload) || reduce || location.hash || /(^|[?&])review/.test(location.search))) return;
+        if (!forced && (backForward || reduce || location.hash || /(^|[?&])review/.test(location.search))) return;
 
         // .splash shows the overlay; .intro holds the hero's entrance until the overlay starts fading.
         root.classList.add('splash', 'intro');
