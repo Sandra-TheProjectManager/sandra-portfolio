@@ -73,13 +73,14 @@
     // Explicit root masking also covers dynamically inserted project-reader content.
     document.documentElement.setAttribute('data-clarity-mask', 'true');
     window.clarity = window.clarity || function () { (window.clarity.q = window.clarity.q || []).push(arguments); };
-    window.clarity('consentv2', {analytics_Storage: 'denied', ad_Storage: 'denied'});
+    // The SDK is entirely absent until acceptance; do not restart it with a
+    // redundant initial denial before passing the visitor's actual decision.
     window.clarity('consentv2', {analytics_Storage: 'granted', ad_Storage: 'denied'});
     // Expose only the SDK's effective consent states for verification, never its IDs.
     window.clarity('metadata', function (ignored, upgraded, consent) {
       if (!consent) return;
       ['analytics_storage','ad_storage'].forEach(function (type) {
-        var state = String(consent[type] || '').toLowerCase();
+        var state = String(consent[type] || consent[type.replace('_storage','_Storage')] || '').toLowerCase();
         if (state === 'granted' || state === 'denied') document.documentElement.setAttribute('data-clarity-' + type.replace('_','-'), state);
       });
     }, false, true, true);
