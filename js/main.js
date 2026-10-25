@@ -693,7 +693,7 @@
     rerun.addEventListener('click', function () { run(0); });
     // Start once the hero is settled (after the opening intro, if it runs).
     // Reset to To do straight away; during the opening intro, wait for it to lift before moving cards.
-    run(document.documentElement.classList.contains('splash') ? 3100 : 0);
+    run(document.documentElement.classList.contains('splash') ? 4500 : 0);
   }
 
   /* ---------- Status bar clock (Lagos, WAT) ---------- */

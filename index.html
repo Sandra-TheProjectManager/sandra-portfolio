@@ -30,7 +30,7 @@
   
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap"></noscript>
-  <link rel="stylesheet" href="/css/styles.css?v=64a02ba69a">
+  <link rel="stylesheet" href="/css/styles.css?v=c046d36fb6">
   <link rel="preload" as="image" href="/assets/images/sandra-hero.jpg">
 
   <script>
@@ -43,7 +43,7 @@
       }, 2500);
 
       // Opening intro: first homepage visit per browser session only.
-      // The animation is pure CSS (3.6s, hides itself); this only decides whether to show it
+      // The animation is pure CSS (5s, hides itself); this only decides whether to show it
       // and guarantees removal. It never waits for fonts, images or main.js,
       // never moves focus and never locks scrolling.
       try {
@@ -55,7 +55,7 @@
 
         // .splash shows the overlay; .intro holds the hero's entrance until the overlay starts fading.
         root.classList.add('splash', 'intro');
-        var release = setTimeout(function () { root.classList.remove('intro'); }, 3100);
+        var release = setTimeout(function () { root.classList.remove('intro'); }, 4500);
         var end = function () {
           clearTimeout(release);
           root.classList.remove('splash', 'intro');
@@ -68,14 +68,14 @@
         var onKey = function (e) { if (e.key === 'Escape') end(); };
         document.addEventListener('click', onClick);
         document.addEventListener('keydown', onKey);
-        setTimeout(end, 3800);   // hard stop, even if the CSS animation never ran
+        setTimeout(end, 5300);   // hard stop, even if the CSS animation never ran
       } catch (err) {
         // Storage blocked or any other error: no intro, homepage as normal.
         root.classList.remove('splash', 'intro');
       }
     })();
   </script>
-  <script src="/js/main.js?v=c8993bcf77" defer></script>
+  <script src="/js/main.js?v=1e9c44d4f7" defer></script>
   <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://sandraaibangbee.com/#website","url":"https://sandraaibangbee.com/","name":"Sandra Aibangbee","inLanguage":"en","publisher":{"@id":"https://sandraaibangbee.com/#person"}},{"@type":"Person","@id":"https://sandraaibangbee.com/#person","name":"Sandra Aibangbee","url":"https://sandraaibangbee.com/","image":"https://sandraaibangbee.com/assets/images/sandra-hero.jpg","jobTitle":"Head of Sales Operations / Project Manager","worksFor":{"@type":"Organization","name":"Frutta Foods"},"address":{"@type":"PostalAddress","addressLocality":"Lagos","addressCountry":"NG"},"email":"mailto:aibangbeesandra1@gmail.com","sameAs":["https://www.linkedin.com/in/sandraaibangbee","https://x.com/i_am_san_dra"],"knowsAbout":["Project management","Business analysis","Sales operations","Revenue operations","CRM implementation","Sales force automation","Route-to-market execution","Business process improvement","Digital transformation","Data analytics and reporting","SAP Business One","Stakeholder management","FMCG commercial operations"],"alumniOf":[{"@type":"CollegeOrUniversity","name":"National Open University of Nigeria"},{"@type":"EducationalOrganization","name":"Lagos Business School"},{"@type":"CollegeOrUniversity","name":"Ambrose Alli University"}],"hasCredential":[{"@type":"EducationalOccupationalCredential","name":"PMI Professional in Business Analysis (PMI-PBA)","credentialCategory":"certification","recognizedBy":{"@type":"Organization","name":"Project Management Institute"}},{"@type":"EducationalOccupationalCredential","name":"PGD in Project Management","credentialCategory":"certificate","recognizedBy":{"@type":"Organization","name":"Chartered Institute of Project Management"}},{"@type":"EducationalOccupationalCredential","name":"SAP Certified Associate Project Manager","credentialCategory":"certification","recognizedBy":{"@type":"Organization","name":"Chartered Institute of Project Management"}}]},{"@id":"https://sandraaibangbee.com/#webpage","url":"https://sandraaibangbee.com/","name":"Sandra Aibangbee | Project Manager, Sales Operations & Business Analyst","description":"Sandra Aibangbee is a Lagos-based project manager and business analyst delivering CRM/SFA rollouts, sales operations, reporting and process improvement.","isPartOf":{"@id":"https://sandraaibangbee.com/#website"},"inLanguage":"en","@type":"WebPage","about":{"@id":"https://sandraaibangbee.com/#person"},"mainEntity":{"@id":"https://sandraaibangbee.com/#person"}}]}</script>
 </head>
 
@@ -97,25 +97,35 @@
   </svg>
 
   
-  <div class="intro-screen dotgrid" hidden>
+  <div class="intro-screen" hidden>
+    <span class="intro-half intro-half--l dotgrid" aria-hidden="true"></span><span class="intro-half intro-half--r dotgrid" aria-hidden="true"></span>
     <div class="intro-stage" aria-hidden="true">
-      <div class="intro-portrait">
-        <svg class="intro-ring" viewBox="0 0 120 120"><circle cx="60" cy="60" r="56"/><circle class="intro-ring-fill" cx="60" cy="60" r="56"/></svg>
-        <img src="/assets/images/sandra-hero.jpg" alt="" width="864" height="1080" decoding="async" fetchpriority="high">
-        <span class="intro-pct"></span>
-        <span class="intro-stamp">Delivered</span>
+      <div class="intro-desk">
+        <span class="art art--brd" style="--x:-225%;--y:-55%;--r:-9deg;--i:0"><b>BRD</b><i></i><i></i><i class="s"></i></span>
+        <span class="art art--gantt" style="--x:225%;--y:-60%;--r:7deg;--i:1"><b>Gantt</b><i style="--w:60%"></i><i style="--w:40%;--o:30%"></i><i style="--w:50%;--o:45%"></i></span>
+        <span class="art art--raci" style="--x:-215%;--y:62%;--r:6deg;--i:2"><b>RACI</b><em>R</em><em>A</em><em>C</em><em>I</em></span>
+        <span class="art art--kpi" style="--x:220%;--y:66%;--r:-6deg;--i:3"><b>KPI</b><svg viewBox="0 0 60 26"><path d="M2 22 L16 15 L28 18 L42 7 L58 3"/></svg></span>
+        <span class="art art--note" style="--x:0%;--y:-390%;--r:-4deg;--i:4">Clarity before execution</span>
+        <div class="intro-portrait">
+          <svg class="intro-ring" viewBox="0 0 120 120"><circle cx="60" cy="60" r="56"/><circle class="intro-ring-fill" cx="60" cy="60" r="56"/></svg>
+          <img src="/assets/images/sandra-hero.jpg" alt="" width="864" height="1080" decoding="async" fetchpriority="high">
+          <span class="intro-pct"></span>
+          <span class="intro-stamp">Delivered</span>
+          <span class="intro-burst"><i style="--a:0deg"></i><i style="--a:36deg"></i><i style="--a:72deg"></i><i style="--a:108deg"></i><i style="--a:144deg"></i><i style="--a:180deg"></i><i style="--a:216deg"></i><i style="--a:252deg"></i><i style="--a:288deg"></i><i style="--a:324deg"></i></span>
+        </div>
       </div>
       <p class="intro-name"><span>Sandra</span> <span>Aibangbee</span></p>
       <p class="intro-role">Project Manager · Business Analyst</p>
       <div class="intro-track">
         <span class="intro-line"></span>
         <ol class="intro-steps">
-          <li><span class="dot"></span><span class="step">See</span></li>
-          <li><span class="dot"></span><span class="step">Plan</span></li>
-          <li><span class="dot"></span><span class="step">Do</span></li>
-          <li><span class="dot"></span><span class="step">Review</span></li>
+          <li><span class="dot"></span><span class="step">See</span><span class="deliv">Discovery</span></li>
+          <li><span class="dot"></span><span class="step">Plan</span><span class="deliv">BRD signed</span></li>
+          <li><span class="dot"></span><span class="step">Do</span><span class="deliv">Rollout</span></li>
+          <li><span class="dot"></span><span class="step">Review</span><span class="deliv">KPIs met</span></li>
         </ol>
       </div>
+      <p class="intro-tagline">From business needs to <em>projects delivered.</em></p>
     </div>
     <button class="intro-skip" type="button" data-skip-intro>Skip intro</button>
   </div>
