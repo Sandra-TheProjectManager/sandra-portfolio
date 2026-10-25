@@ -26,7 +26,12 @@
     } catch (e) { return null; }
   }
   function remember(choice) {
-    try { localStorage.setItem(key, JSON.stringify({choice: choice, expires: Date.now() + 180 * 86400000})); } catch (e) { /* No storage: ask again next page. */ }
+    try {
+      var value = JSON.stringify({choice: choice, expires: Date.now() + 180 * 86400000});
+      localStorage.setItem(key, value);
+      // Notify already-open GA-only tabs too, so withdrawal is not lost on upgrade.
+      localStorage.setItem('sandra-analytics-consent-v1', value);
+    } catch (e) { /* No storage: ask again next page. */ }
   }
   function gtag() { window.dataLayer.push(arguments); }
   function event(name, params) {
