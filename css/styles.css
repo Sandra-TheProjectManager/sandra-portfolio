@@ -1821,3 +1821,4 @@ body { padding-bottom: 30px; }
   .intro-screen .art--gantt, .intro-screen .art--kpi { --x: 168% !important; }
   .intro-desk { margin-top: 1rem; }
 }
+.sb-replay { text-decoration: none; }
