@@ -1362,3 +1362,16 @@ body:has(.project-reader-modal[open]) { overflow:hidden; }
 .mess-grid h2 { margin-bottom: 1rem; }
 .mess-grid p { max-width: 42ch; margin-bottom: 1.4rem; }
 @media (max-width: 900px) { .mess-grid { grid-template-columns: 1fr; } }
+
+/* "How I work" board: the PM or BA tool behind each fix */
+.note-after { display: flex; flex-direction: column; align-items: center; gap: .35rem; }
+.note-after b { font-weight: 700; }
+.note-tool { display: flex; flex-direction: column; align-items: center; gap: .2rem; font: 500 clamp(.56rem, 1vw, .68rem)/1.2 var(--font-body); color: var(--muted); }
+.pmba { padding: .08rem .35rem; border-radius: 4px; font: 800 .58rem/1.3 var(--font-body); font-style: normal; letter-spacing: .1em; color: #fff; }
+.pmba--pm { background: var(--rose); }
+.pmba--ba { background: #4c7458; }
+.mess-board.is-sorted .mess-note { height: 27%; top: calc(18% + var(--r) * 30%); }
+.pmba-key { display: flex; flex-wrap: wrap; gap: .5rem 1.2rem; font-size: .88rem; color: var(--ink); }
+.pmba-key span { display: inline-flex; align-items: center; gap: .45rem; }
+@media (max-width: 600px) { .note-tool .pmba { font-size: .5rem; padding: .05rem .25rem; } }
+@media (max-width: 600px) { .mess-owner { width: 22%; bottom: -9%; } }
