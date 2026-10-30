@@ -9,7 +9,7 @@
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   document.addEventListener('DOMContentLoaded', function () {
-    initTicket();
+    initEmailContact();
     initMobileNav();
     initHeaderShadow();
     initReveal();
@@ -390,6 +390,7 @@
       var text = btn.getAttribute('data-copy');
       var status = document.getElementById(btn.getAttribute('aria-describedby') || '') ||
                    (btn.parentElement && btn.parentElement.parentElement && btn.parentElement.parentElement.querySelector('.copy-status'));
+      var defaultMessage = status ? status.textContent : '';
       var label = btn.querySelector('.label-text');
       var timer = null;
 
@@ -401,7 +402,7 @@
         timer = setTimeout(function () {
           btn.classList.remove('is-copied');
           if (label) label.textContent = 'Copy';
-          if (status) status.textContent = '';
+          if (status) status.textContent = defaultMessage;
         }, 2600);
       }
       function fallback() {
@@ -752,73 +753,18 @@
     dialog.addEventListener('click', function (e) { if (e.target === dialog) dialog.close(); });
   }
 
-  /* ---------- Raise a ticket: posts to FormSubmit (delivered to Sandra's inbox), then files the ticket ---------- */
-  function initTicket() {
-    var form = document.querySelector('[data-ticket]');
-    if (!form || !window.fetch) return;
-    var id = 'PRJ-' + String(100 + Math.floor(Math.random() * 900));
-    var idEl = form.querySelector('[data-ticket-id]');
-    var status = form.querySelector('[data-ticket-status]');
-    var label = form.querySelector('[data-ticket-label]');
-    var msg = form.querySelector('[data-ticket-msg]');
-    var slot = document.querySelector('[data-ticket-slot]');
-    idEl.textContent = id;
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      if (form.classList.contains('is-sending') || form.classList.contains('is-sent')) return;
-      if (!form.checkValidity()) {
-        var missing = [];
-        if (!form.elements.name.value.trim()) missing.push('your name');
-        if (!form.elements.email.validity.valid) missing.push(form.elements.email.value ? 'a valid email' : 'your email');
-        if (!form.elements.message.value.trim()) missing.push('a message');
-        msg.textContent = 'Almost there: please add ' + missing.join(', ').replace(/, ([^,]*)$/, ' and $1') + '.';
-        var first = form.querySelector(':invalid');
-        if (first) first.focus();
-        return;
-      }
-      var data = new FormData(form);
-      if (data.get('_honey')) {
-        status.textContent = 'Not sent';
-        msg.textContent = 'Your ticket was not sent because the spam check was filled. Please reload the page and enter your details manually, or email aibangbeesandra1@gmail.com.';
-        return;
-      }
-      data.set('_subject', 'New ' + data.get('type') + ' ticket (' + data.get('priority') + ') from your portfolio · ' + id);
-      data.set('_template', 'table');
-      data.set('ticket', id);
-      data.set('_autoresponse', 'Hi ' + (String(data.get('name')).split(' ')[0] || 'there') + ', thanks for raising ticket ' + id + ' on sandraaibangbee.com. It has been received and I will reply within 24 hours. Sandra Aibangbee');
-      form.classList.add('is-sending');
-      form.setAttribute('aria-busy', 'true');
-      form.querySelector('[type=submit]').disabled = true;
-      status.textContent = 'Submitting…';
-      label.textContent = 'Submitting…';
-      msg.textContent = 'Sending your ticket. Please wait for confirmation.';
-      var controller = typeof AbortController === 'function' ? new AbortController() : null;
-      var timeout = setTimeout(function () { if (controller) controller.abort(); }, 20000);
-      fetch(form.action, { method: 'POST', body: data, signal: controller ? controller.signal : undefined, headers: { Accept: 'application/json' } })
-        .then(function (r) { return r.json().then(function (j) { if (!r.ok || String(j.success) !== 'true') throw new Error(j.message || 'failed'); }); })
-        .then(function () {
-          clearTimeout(timeout);
-          form.classList.remove('is-sending');
-          form.setAttribute('aria-busy', 'false');
-          form.classList.add('is-sent');
-          status.textContent = 'Received';
-          label.textContent = 'Ticket submitted';
-          form.querySelectorAll('input, textarea, button').forEach(function (el) { el.disabled = true; });
-          slot.innerHTML = '<b>' + id + '</b><span>' + String(data.get('type')) + ' · ' + String(data.get('priority')) + '</span><i>Assigned: Sandra ✓</i>';
-          slot.classList.add('is-filled');
-          msg.classList.add('is-success');
-          msg.textContent = 'Ticket sent! Your reference is ' + id + '. Thank you, ' + (String(data.get('name')).split(' ')[0] || 'friend') + '. I will reply to ' + String(data.get('email')) + ' within 24 hours.';
-          form.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
-        })
-        .catch(function () {
-          clearTimeout(timeout);
-          form.classList.remove('is-sending');
-          form.setAttribute('aria-busy', 'false');
-          form.querySelector('[type=submit]').disabled = false;
-          status.textContent = 'Not sent';
-          label.textContent = 'Submit ticket';
-          msg.innerHTML = 'That didn’t go through. Please email me at <a href="mailto:aibangbeesandra1@gmail.com">aibangbeesandra1@gmail.com</a>.';
-        });
+  /* ---------- Email contact: show the next step without claiming delivery ---------- */
+  function initEmailContact() {
+    var status = document.getElementById('contact-email-status');
+    if (!status) return;
+    document.querySelectorAll('[data-email-open]').forEach(function (link) {
+      link.addEventListener('click', function () {
+        status.textContent = link.getAttribute('data-email-open') === 'gmail'
+          ? 'Continue in the Gmail tab, write your message and press Send. Check Gmail Sent to confirm it was sent.'
+          : 'Continue in your email app, write your message and press Send. If no app opens, choose Open Gmail or Copy email. Check your Sent folder to confirm.';
+        status.classList.add('is-active');
+        status.focus();
+      });
     });
   }
 

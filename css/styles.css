@@ -1938,3 +1938,31 @@ main > .section { padding-block: clamp(5rem, 10vw, 8rem); }
 @media (hover: none) { .pm-statusbar kbd { display: none; } }
 .tk-input input:invalid:not(:placeholder-shown):not(:focus), .ticket.was-checked .tk-input :invalid { border-color: var(--rose); }
 .tk-msg.is-success { flex-basis: 100%; padding: .75rem 1rem; border-radius: 10px; background: #e6f0e7; border: 1.5px solid #a9c3ad; color: #2f5a3a; font-weight: 600; }
+
+/* Compact career plan and closer transition into featured work. */
+.numbers-section { padding-bottom: clamp(1.5rem, 3vw, 2rem); }
+.numbers-section + .section--files { padding-top: clamp(2rem, 4vw, 3rem); }
+.roadmap { --label: 19rem; --gap: 1rem; padding: 1rem 1.25rem .8rem; }
+.roadmap-label { padding: .35rem 0; line-height: 1.2; }
+.roadmap-label b { font-size: .84rem; }
+.roadmap-label > span { font-size: .74rem; }
+.roadmap-track { min-height: 2rem; }
+.roadmap-title { font-size: 1.12rem; margin-bottom: .4rem; }
+.roadmap-title span { font-size: .8rem; }
+.bricks-section .roadmap { margin-top: 1.5rem; }
+@media (max-width: 700px) {
+  .roadmap { --label: 0px; --gap: 0px; padding-inline: .9rem; }
+  .roadmap-label { padding: .4rem 0 .1rem; }
+  .roadmap-track { min-height: 1.4rem; }
+}
+/* Direct email contact, with a persistent explanation and visible next step. */
+.email-card { display: grid; gap: 1rem; }
+.email-card h3, .email-card p { margin: 0; }
+.contact-email { color: var(--rose); overflow-wrap: anywhere; font-weight: 600; text-underline-offset: .2em; }
+.email-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 1rem 1.5rem; }
+.email-actions .tk-submit { text-decoration: none; }
+.email-actions button { background: none; cursor: pointer; font: inherit; }
+.email-status { padding: 1rem; border: 1px solid var(--line-2); border-radius: 10px; background: var(--paper); font-size: .9rem; line-height: 1.6; }
+.email-status.is-active { border-color: var(--rose); background: var(--rose-soft); color: var(--ink-strong); }
+.email-status:focus-visible { outline: 3px solid var(--rose); outline-offset: 3px; }
+@media (max-width: 640px) { .email-actions { align-items: stretch; } .email-actions .tk-submit { width: 100%; justify-content: center; } }
