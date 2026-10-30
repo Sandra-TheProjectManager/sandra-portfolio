@@ -779,6 +779,7 @@
       data.set('_subject', 'New ' + data.get('type') + ' ticket (' + data.get('priority') + ') from your portfolio · ' + id);
       data.set('_template', 'table');
       data.set('ticket', id);
+      data.set('_autoresponse', 'Hi ' + (String(data.get('name')).split(' ')[0] || 'there') + ', thanks for raising ticket ' + id + ' on sandraaibangbee.com. It has been received and I will reply within 24 hours. Sandra Aibangbee');
       form.classList.add('is-sending');
       status.textContent = 'Submitting…';
       label.textContent = 'Submitting…';
@@ -794,6 +795,9 @@
           form.querySelectorAll('input, textarea, button').forEach(function (el) { el.disabled = true; });
           slot.innerHTML = '<b>' + id + '</b><span>' + String(data.get('type')) + ' · ' + String(data.get('priority')) + '</span><i>Assigned: Sandra ✓</i>';
           slot.classList.add('is-filled');
+          msg.classList.add('is-success');
+          msg.textContent = '✓ Sent! Thank you, ' + (String(data.get('name')).split(' ')[0] || 'friend') + '. Ticket ' + id + ' is in my inbox, and a confirmation email is on its way to you.';
+          form.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
         })
         .catch(function () {
           form.classList.remove('is-sending');
