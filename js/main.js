@@ -764,7 +764,15 @@
     idEl.textContent = id;
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      if (!form.reportValidity()) return;
+      if (!form.checkValidity()) {
+        var missing = [];
+        if (!form.elements.name.value.trim()) missing.push('your name');
+        if (!form.elements.email.validity.valid) missing.push(form.elements.email.value ? 'a valid email' : 'your email');
+        if (!form.elements.message.value.trim()) missing.push('a message');
+        msg.textContent = 'Almost there: please add ' + missing.join(', ').replace(/, ([^,]*)$/, ' and $1') + '.';
+        form.reportValidity();
+        return;
+      }
       var data = new FormData(form);
       if (data.get('_honey')) return;
       data.set('_subject', 'New ' + data.get('type') + ' ticket (' + data.get('priority') + ') from your portfolio · ' + id);
