@@ -31,7 +31,7 @@
     initPmApp();
     initWatClock();
     initCommandPalette();
-    initKeyboardNote();
+    initTicket();
 
     var year = document.getElementById('year');
     if (year) year.textContent = String(new Date().getFullYear());
@@ -751,52 +751,47 @@
     dialog.addEventListener('click', function (e) { if (e.target === dialog) dialog.close(); });
   }
 
-  /* ---------- Leave a note: an on-screen keyboard that opens a pre-filled email ---------- */
-  function initKeyboardNote() {
-    var form = document.querySelector('[data-keyboard]');
-    if (!form) return;
-    var input = form.querySelector('[data-kb-input]');
-    var soundBtn = form.querySelector('[data-kb-sound]');
-    var sound = false, audio = null;
-    var click = function () {
-      if (!sound) return;
-      try {
-        audio = audio || new (window.AudioContext || window.webkitAudioContext)();
-        var o = audio.createOscillator(), g = audio.createGain();
-        o.frequency.value = 520 + Math.random() * 120; o.type = 'triangle';
-        g.gain.setValueAtTime(0.06, audio.currentTime); g.gain.exponentialRampToValueAtTime(0.0001, audio.currentTime + 0.06);
-        o.connect(g); g.connect(audio.destination); o.start(); o.stop(audio.currentTime + 0.07);
-      } catch (e) { /* no audio */ }
-    };
-    var press = function (k) {
-      var el = form.querySelector('[data-key="' + (k === ' ' ? ' ' : k) + '"]');
-      if (!el) return;
-      el.classList.add('is-down');
-      window.setTimeout(function () { el.classList.remove('is-down'); }, 120);
-    };
-    soundBtn.addEventListener('click', function () {
-      sound = !sound;
-      soundBtn.setAttribute('aria-pressed', String(sound));
-      soundBtn.textContent = sound ? 'Sound on' : 'Sound off';
-    });
-    form.querySelectorAll('[data-key]').forEach(function (b) {
-      b.addEventListener('click', function () {
-        var k = b.getAttribute('data-key');
-        if (k === 'back') input.value = input.value.slice(0, -1);
-        else if (input.value.length < 280) input.value += input.value ? k.toLowerCase() : k;
-        click(); press(k);
-      });
-    });
-    input.addEventListener('keydown', function (e) {
-      if (e.key === 'Backspace') press('back');
-      else if (e.key.length === 1) press(e.key === ' ' ? ' ' : e.key.toUpperCase());
-      click();
-    });
+  /* ---------- Raise a ticket: posts to FormSubmit (delivered to Sandra's inbox), then files the ticket ---------- */
+  function initTicket() {
+    var form = document.querySelector('[data-ticket]');
+    if (!form || !window.fetch) return;
+    var id = 'PRJ-' + String(100 + Math.floor(Math.random() * 900));
+    var idEl = form.querySelector('[data-ticket-id]');
+    var status = form.querySelector('[data-ticket-status]');
+    var label = form.querySelector('[data-ticket-label]');
+    var msg = form.querySelector('[data-ticket-msg]');
+    var slot = document.querySelector('[data-ticket-slot]');
+    idEl.textContent = id;
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      var msg = input.value.trim();
-      if (!msg) { input.focus(); input.placeholder = 'Type something first…'; return; }
-      window.location.href = form.getAttribute('action') + '?subject=' + encodeURIComponent('Hello from your portfolio') + '&body=' + encodeURIComponent(msg);
+      if (!form.reportValidity()) return;
+      var data = new FormData(form);
+      if (data.get('_honey')) return;
+      data.set('_subject', 'New ' + data.get('type') + ' ticket (' + data.get('priority') + ') from your portfolio · ' + id);
+      data.set('_template', 'table');
+      data.set('ticket', id);
+      form.classList.add('is-sending');
+      status.textContent = 'Submitting…';
+      label.textContent = 'Submitting…';
+      msg.textContent = '';
+      fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } })
+        .then(function (r) { return r.json().then(function (j) { if (!r.ok || String(j.success) === 'false') throw new Error(j.message || 'failed'); }); })
+        .then(function () {
+          form.classList.remove('is-sending');
+          form.classList.add('is-sent');
+          status.textContent = 'Received';
+          label.textContent = 'Ticket submitted';
+          msg.textContent = 'Thank you, ' + (String(data.get('name')).split(' ')[0] || 'friend') + '! Ticket ' + id + ' is in my inbox. I’ll reply by email.';
+          form.querySelectorAll('input, textarea, button').forEach(function (el) { el.disabled = true; });
+          slot.innerHTML = '<b>' + id + '</b><span>' + String(data.get('type')) + ' · ' + String(data.get('priority')) + '</span><i>Assigned: Sandra ✓</i>';
+          slot.classList.add('is-filled');
+        })
+        .catch(function () {
+          form.classList.remove('is-sending');
+          status.textContent = 'Draft';
+          label.textContent = 'Submit ticket';
+          msg.innerHTML = 'That didn’t go through. Please email me at <a href="mailto:aibangbeesandra1@gmail.com">aibangbeesandra1@gmail.com</a>.';
+        });
     });
   }
 
