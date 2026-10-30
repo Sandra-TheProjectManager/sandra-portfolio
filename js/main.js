@@ -31,6 +31,7 @@
     initPmApp();
     initWatClock();
     initCommandPalette();
+    initKeyboardNote();
 
     var year = document.getElementById('year');
     if (year) year.textContent = String(new Date().getFullYear());
@@ -748,6 +749,55 @@
       if (e.key === 'Enter') { var list = visible(); if (list[active]) { e.preventDefault(); list[active].click(); } }
     });
     dialog.addEventListener('click', function (e) { if (e.target === dialog) dialog.close(); });
+  }
+
+  /* ---------- Leave a note: an on-screen keyboard that opens a pre-filled email ---------- */
+  function initKeyboardNote() {
+    var form = document.querySelector('[data-keyboard]');
+    if (!form) return;
+    var input = form.querySelector('[data-kb-input]');
+    var soundBtn = form.querySelector('[data-kb-sound]');
+    var sound = false, audio = null;
+    var click = function () {
+      if (!sound) return;
+      try {
+        audio = audio || new (window.AudioContext || window.webkitAudioContext)();
+        var o = audio.createOscillator(), g = audio.createGain();
+        o.frequency.value = 520 + Math.random() * 120; o.type = 'triangle';
+        g.gain.setValueAtTime(0.06, audio.currentTime); g.gain.exponentialRampToValueAtTime(0.0001, audio.currentTime + 0.06);
+        o.connect(g); g.connect(audio.destination); o.start(); o.stop(audio.currentTime + 0.07);
+      } catch (e) { /* no audio */ }
+    };
+    var press = function (k) {
+      var el = form.querySelector('[data-key="' + (k === ' ' ? ' ' : k) + '"]');
+      if (!el) return;
+      el.classList.add('is-down');
+      window.setTimeout(function () { el.classList.remove('is-down'); }, 120);
+    };
+    soundBtn.addEventListener('click', function () {
+      sound = !sound;
+      soundBtn.setAttribute('aria-pressed', String(sound));
+      soundBtn.textContent = sound ? 'Sound on' : 'Sound off';
+    });
+    form.querySelectorAll('[data-key]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var k = b.getAttribute('data-key');
+        if (k === 'back') input.value = input.value.slice(0, -1);
+        else if (input.value.length < 280) input.value += input.value ? k.toLowerCase() : k;
+        click(); press(k);
+      });
+    });
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Backspace') press('back');
+      else if (e.key.length === 1) press(e.key === ' ' ? ' ' : e.key.toUpperCase());
+      click();
+    });
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var msg = input.value.trim();
+      if (!msg) { input.focus(); input.placeholder = 'Type something first…'; return; }
+      window.location.href = form.getAttribute('action') + '?subject=' + encodeURIComponent('Hello from your portfolio') + '&body=' + encodeURIComponent(msg);
+    });
   }
 
 
