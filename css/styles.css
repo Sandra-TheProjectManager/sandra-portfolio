@@ -1856,3 +1856,9 @@ main > .section { padding-block: clamp(5rem, 10vw, 8rem); }
 .footer-legal { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .3rem 1.1rem; }
 .footer-legal a, .footer-legal .analytics-settings { display: inline; margin: 0; padding: 0; min-height: 0; border: 0; background: none; color: var(--muted); font: inherit; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 .footer-legal a:hover, .footer-legal .analytics-settings:hover { color: var(--ink-strong); }
+
+/* Results strip: compact, number + label only */
+.numbers li { gap: .55rem; padding: 1rem 1.1rem 1.4rem; align-items: flex-start; }
+.num { font-size: clamp(1.9rem, 3.4vw, 2.6rem); }
+.num-org { margin-top: 0; }
+.numbers li::after { bottom: .7rem; }
