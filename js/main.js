@@ -770,7 +770,8 @@
         if (!form.elements.email.validity.valid) missing.push(form.elements.email.value ? 'a valid email' : 'your email');
         if (!form.elements.message.value.trim()) missing.push('a message');
         msg.textContent = 'Almost there: please add ' + missing.join(', ').replace(/, ([^,]*)$/, ' and $1') + '.';
-        form.reportValidity();
+        var first = form.querySelector(':invalid');
+        if (first) first.focus();
         return;
       }
       var data = new FormData(form);

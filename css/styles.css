@@ -1931,3 +1931,4 @@ main > .section { padding-block: clamp(5rem, 10vw, 8rem); }
   .pm-statusbar .sb-cmd:not(.sb-replay)::before { content: "⌕"; font-size: .9rem; }
 }
 @media (hover: none) { .pm-statusbar kbd { display: none; } }
+.tk-input input:invalid:not(:placeholder-shown):not(:focus), .ticket.was-checked .tk-input :invalid { border-color: var(--rose); }
