@@ -1701,13 +1701,13 @@ body:has(.project-reader-modal[open]) { overflow:hidden; }
 
   /* Home Kanban: cards are dealt onto the board */
   .js .kanban--home.is-waiting .kanban-cards > li { opacity: 0; }
-  .js .kanban--home.is-in .kanban-cards > li { animation: card-dealt .5s cubic-bezier(.22, 1, .36, 1) both; }
+  .js .kanban--home.is-in .kanban-cards > li { animation: card-dealt .7s cubic-bezier(.25, 1.2, .4, 1) both; }
   .js .kanban--home.is-in .kanban-col:nth-child(1) li { animation-delay: .05s; }
   .js .kanban--home.is-in .kanban-col:nth-child(2) li { animation-delay: .2s; }
   .js .kanban--home.is-in .kanban-col:nth-child(3) li { animation-delay: .35s; }
   .js .kanban--home.is-in .kanban-col:nth-child(4) li { animation-delay: .5s; }
-  .js .kanban--home.is-in .kanban-col--open li { animation-delay: .32s; }
-  .js .kanban--home.is-in .kanban-col--open li + li { animation-delay: .4s; }
+  .js .kanban--home.is-in .kanban-col--open li { animation-delay: .75s; }
+  .js .kanban--home.is-in .kanban-col--open li + li { animation-delay: .9s; }
 
   /* Results: each figure fills a small progress bar while it counts */
   .numbers li { position: relative; }
@@ -1727,7 +1727,7 @@ body:has(.project-reader-modal[open]) { overflow:hidden; }
   .js .slider-track.is-in .quote-sheet:nth-child(5) { animation-delay: .6s; }
 }
 @keyframes kicker-land { from { opacity: 0; scale: .85; } to { opacity: 1; scale: 1; } }
-@keyframes card-dealt { from { opacity: 0; translate: 0 14px; } to { opacity: 1; translate: 0 0; } }
+@keyframes card-dealt { from { opacity: 0; translate: -40px -30px; rotate: -8deg; } to { opacity: 1; translate: 0 0; rotate: 0deg; } }
 @keyframes note-pinned { 0% { opacity: 0; transform: translateY(-26px) rotate(-6deg); } 60% { opacity: 1; transform: rotate(2deg); } 100% { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .delivery-bar-marks i { transition: none; } }
 
@@ -1974,13 +1974,10 @@ main > .section { padding-block: clamp(5rem, 10vw, 8rem); }
   .lightbox[open], .video-modal[open] { animation: calm-dialog .22s cubic-bezier(.22, 1, .36, 1); }
   .lightbox[open]::backdrop, .video-modal[open]::backdrop, .project-reader-modal[open]::backdrop { animation: calm-backdrop .2s ease-out; }
   .email-status.is-active { animation: calm-feedback .3s ease-out; }
-  .js .kanban--home.is-in .kanban-col:nth-child(2) li { animation-delay: .08s; }
-  .js .kanban--home.is-in .kanban-col:nth-child(3) li { animation-delay: .16s; }
-  .js .kanban--home.is-in .kanban-col:nth-child(4) li { animation-delay: .24s; }
 }
 @media (hover: hover) and (pointer: fine) {
   .project-card, .kanban .project-card { transition: transform .25s cubic-bezier(.22, 1, .36, 1), box-shadow .25s ease, border-color .25s ease; }
-  .kanban .project-card:hover { transform: translateY(-3px); }
+  .kanban .project-card:hover { transform: translateY(-4px) rotate(-1.2deg); }
   .project-card .card-media img { transition: transform .5s cubic-bezier(.22, 1, .36, 1); }
   .project-card:hover .card-media img { transform: scale(1.025); }
 }
