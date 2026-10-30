@@ -1,4 +1,4 @@
-/* Sandra Aibangbee â€” Portfolio
+/* Sandra Aibangbee — Portfolio
    Progressive enhancement only: every page is complete and usable without this file. */
 (function () {
   'use strict';
@@ -396,7 +396,7 @@
       function done(ok) {
         btn.classList.toggle('is-copied', ok);
         if (label) label.textContent = ok ? 'Copied' : 'Copy';
-        if (status) status.textContent = ok ? 'Email address copied to your clipboard.' : 'Couldnâ€™t copy automatically â€” please select the address above.';
+        if (status) status.textContent = ok ? 'Email address copied to your clipboard.' : 'Couldn’t copy automatically — please select the address above.';
         clearTimeout(timer);
         timer = setTimeout(function () {
           btn.classList.remove('is-copied');
@@ -518,7 +518,7 @@
     });
     var count = order.filter(function (p) { return seen.indexOf(p) !== -1; }).length;
     var kicker = map.querySelector('[data-roadmap-kicker]');
-    if (kicker) kicker.textContent = count === order.length ? 'Youâ€™ve seen every page. Thank you for looking around' : 'Youâ€™ve explored ' + count + ' of ' + order.length + ' pages';
+    if (kicker) kicker.textContent = count === order.length ? 'You’ve seen every page. Thank you for looking around' : 'You’ve explored ' + count + ' of ' + order.length + ' pages';
   }
 
   /* ---------- By the numbers: count up once when the strip scrolls into view ---------- */
@@ -543,7 +543,7 @@
     observer.observe(strip);
   }
 
-  /* ---------- Hero: the messy notes sort themselves into See Â· Plan Â· Do Â· Review.
+  /* ---------- Hero: the messy notes sort themselves into See · Plan · Do · Review.
      The markup ships sorted, so no-JS and reduced-motion visitors see the finished board. ---------- */
   function initMessBoard() {
     var board = document.querySelector('[data-mess-board]');
@@ -553,7 +553,7 @@
     var set = function (sorted) {
       board.classList.toggle('is-sorted', sorted);
       button.firstChild.textContent = sorted ? 'Mess it up again' : 'Sort it out';
-      button.lastChild.textContent = sorted ? 'â†º' : 'â–¸';
+      button.lastChild.textContent = sorted ? '↺' : '▸';
     };
     button.addEventListener('click', function () {
       touched = true;
@@ -575,7 +575,7 @@
     watcher.observe(board);
   }
 
-  /* ---------- Play an entrance once when an element scrolls into view ([data-animate-once] â†’ .is-in) ---------- */
+  /* ---------- Play an entrance once when an element scrolls into view ([data-animate-once] → .is-in) ---------- */
   function initAnimateOnce() {
     var items = document.querySelectorAll('[data-animate-once]');
     if (!items.length) return;
@@ -641,7 +641,7 @@
     var pct = app.querySelector('[data-pm-pct]');
     var status = app.querySelector('[data-pm-status]');
     var toasts = app.querySelector('[data-pm-toasts]');
-    var messages = ["Stakeholders mapped âœ“","Requirements signed off âœ“","To-be process agreed âœ“","UAT passed âœ“","Go-live approved âœ“","Adoption on track âœ“"];
+    var messages = ["Stakeholders mapped ✓","Requirements signed off ✓","To-be process agreed ✓","UAT passed ✓","Go-live approved ✓","Adoption on track ✓"];
     var timers = [];
     var later = function (fn, ms) { timers.push(window.setTimeout(fn, ms)); };
     // Lay out a column: cards stack in the order they arrived.
@@ -710,7 +710,7 @@
     schedule();
   }
 
-  /* ---------- Command palette: Ctrl/âŒ˜ + K, or the status bar button ---------- */
+  /* ---------- Command palette: Ctrl/⌘ + K, or the status bar button ---------- */
   function initCommandPalette() {
     var dialog = document.querySelector('[data-cmd]');
     if (!dialog || typeof dialog.showModal !== 'function') return;
@@ -781,15 +781,15 @@
         msg.textContent = 'Your ticket was not sent because the spam check was filled. Please reload the page and enter your details manually, or email aibangbeesandra1@gmail.com.';
         return;
       }
-      data.set('_subject', 'New ' + data.get('type') + ' ticket (' + data.get('priority') + ') from your portfolio Â· ' + id);
+      data.set('_subject', 'New ' + data.get('type') + ' ticket (' + data.get('priority') + ') from your portfolio · ' + id);
       data.set('_template', 'table');
       data.set('ticket', id);
       data.set('_autoresponse', 'Hi ' + (String(data.get('name')).split(' ')[0] || 'there') + ', thanks for raising ticket ' + id + ' on sandraaibangbee.com. It has been received and I will reply within 24 hours. Sandra Aibangbee');
       form.classList.add('is-sending');
       form.setAttribute('aria-busy', 'true');
       form.querySelector('[type=submit]').disabled = true;
-      status.textContent = 'Submittingâ€¦';
-      label.textContent = 'Submittingâ€¦';
+      status.textContent = 'Submitting…';
+      label.textContent = 'Submitting…';
       msg.textContent = 'Sending your ticket. Please wait for confirmation.';
       var controller = typeof AbortController === 'function' ? new AbortController() : null;
       var timeout = setTimeout(function () { if (controller) controller.abort(); }, 20000);
@@ -803,7 +803,7 @@
           status.textContent = 'Received';
           label.textContent = 'Ticket submitted';
           form.querySelectorAll('input, textarea, button').forEach(function (el) { el.disabled = true; });
-          slot.innerHTML = '<b>' + id + '</b><span>' + String(data.get('type')) + ' Â· ' + String(data.get('priority')) + '</span><i>Assigned: Sandra âœ“</i>';
+          slot.innerHTML = '<b>' + id + '</b><span>' + String(data.get('type')) + ' · ' + String(data.get('priority')) + '</span><i>Assigned: Sandra ✓</i>';
           slot.classList.add('is-filled');
           msg.classList.add('is-success');
           msg.textContent = 'Ticket sent! Your reference is ' + id + '. Thank you, ' + (String(data.get('name')).split(' ')[0] || 'friend') + '. I will reply to ' + String(data.get('email')) + ' within 24 hours.';
@@ -816,7 +816,7 @@
           form.querySelector('[type=submit]').disabled = false;
           status.textContent = 'Not sent';
           label.textContent = 'Submit ticket';
-          msg.innerHTML = 'That didnâ€™t go through. Please email me at <a href="mailto:aibangbeesandra1@gmail.com">aibangbeesandra1@gmail.com</a>.';
+          msg.innerHTML = 'That didn’t go through. Please email me at <a href="mailto:aibangbeesandra1@gmail.com">aibangbeesandra1@gmail.com</a>.';
         });
     });
   }
