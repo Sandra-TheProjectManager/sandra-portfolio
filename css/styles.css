@@ -1281,6 +1281,11 @@ body:has(.project-reader-modal[open]) { overflow:hidden; }
 .toolbox { position: relative; list-style: none; display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: .9rem 1rem; min-height: 15rem; margin: clamp(1.5rem, 4vw, 2.5rem) 0 0; padding: clamp(1.5rem, 4vw, 2.5rem); border: 2px dashed var(--line-2); border-radius: 22px; background: radial-gradient(circle at 1px 1px, rgba(59, 36, 29, .08) 1px, transparent 1.5px) 0 0 / 16px 16px, var(--surface); }
 .js .toolbox.reveal { opacity: 1; transform: none; }
 .tool { --dx: 0px; --dy: 0px; padding: .6rem 1.15rem; border: 1.5px solid var(--cocoa); border-radius: 999px; font: 700 clamp(.92rem, 1.8vw, 1.05rem)/1.2 var(--font-body); color: var(--ink-strong); box-shadow: 3px 3px 0 var(--cocoa); user-select: none; rotate: var(--r); transform: translate(var(--dx), var(--dy)); }
+.tool:has(a) { padding: 0; }
+.tool > a { display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; padding: .6rem 1.15rem; border-radius: inherit; color: inherit; text-decoration: none; }
+.tool > a:hover { text-decoration: underline; text-underline-offset: .2em; }
+.tool > a:focus-visible { outline: 3px solid var(--rose); outline-offset: 5px; }
+.tool > a span { font-size: .85em; }
 .tool--plan { background: var(--rose-soft); }
 .tool--data { background: #f3dfae; }
 .tool--auto { background: #d7e6d8; }

@@ -480,6 +480,7 @@
   function initToolbox() {
     if (!window.matchMedia || !window.matchMedia('(pointer: fine)').matches) return;
     document.querySelectorAll('[data-toolbox] .tool').forEach(function (chip) {
+      if (chip.querySelector('a')) return;
       var x = 0, y = 0, startX = 0, startY = 0;
       chip.classList.add('is-draggable');
       chip.addEventListener('pointerdown', function (e) {
@@ -823,4 +824,3 @@
 
 
 })();
-
