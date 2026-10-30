@@ -9,7 +9,7 @@
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   document.addEventListener('DOMContentLoaded', function () {
-    initEmailContact();
+    initTicket();
     initMobileNav();
     initHeaderShadow();
     initReveal();
@@ -753,18 +753,112 @@
     dialog.addEventListener('click', function (e) { if (e.target === dialog) dialog.close(); });
   }
 
-  /* ---------- Email contact: show the next step without claiming delivery ---------- */
-  function initEmailContact() {
-    var status = document.getElementById('contact-email-status');
-    if (!status) return;
-    document.querySelectorAll('[data-email-open]').forEach(function (link) {
-      link.addEventListener('click', function () {
-        status.textContent = link.getAttribute('data-email-open') === 'gmail'
-          ? 'Continue in the Gmail tab, write your message and press Send. Check Gmail Sent to confirm it was sent.'
-          : 'Continue in your email app, write your message and press Send. If no app opens, choose Open Gmail or Copy email. Check your Sent folder to confirm.';
-        status.classList.add('is-active');
-        status.focus();
+  /* ---------- Ticket contact: explicit pending, confirmed and failure states ---------- */
+  function initTicket() {
+    var form = document.querySelector('[data-ticket]');
+    if (!form || !window.fetch) return;
+    var status = form.querySelector('[data-ticket-status]');
+    var label = form.querySelector('[data-ticket-label]');
+    var msg = form.querySelector('[data-ticket-msg]');
+    var button = form.querySelector('[type="submit"]');
+    var again = form.querySelector('[data-ticket-again]');
+    var idEl = form.querySelector('[data-ticket-id]');
+    var pending = false, sent = false;
+    function newId() { return 'PRJ-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).slice(2, 6).toUpperCase(); }
+    var id = newId();
+    idEl.textContent = id;
+    // Native POST still works if this script or fetch is unavailable.
+    form.noValidate = true;
+    function announce(message, state) {
+      msg.textContent = message;
+      msg.classList.remove('is-success', 'is-error');
+      if (state) msg.classList.add(state);
+      msg.focus({ preventScroll: true });
+      msg.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'nearest' });
+    }
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      if (pending || sent) return;
+      var name = form.querySelector('[name="name"]');
+      var email = form.querySelector('[name="email"]');
+      var message = form.querySelector('[name="message"]');
+      if (!form.checkValidity() || !name.value.trim() || !message.value.trim()) {
+        announce('Please add your name, a valid email address and a message before sending.', 'is-error');
+        var invalid = form.querySelector(':invalid');
+        if (invalid) invalid.focus();
+        else if (!name.value.trim()) name.focus();
+        else message.focus();
+        return;
+      }
+      var data = new FormData(form);
+      var payload = {};
+      data.forEach(function (value, key) { payload[key] = value; });
+      payload.name = name.value.trim();
+      payload.message = message.value.trim();
+      payload.ticket = id;
+      payload._subject = 'Portfolio ' + payload.type + ' ticket - ' + id;
+      payload._template = 'table';
+      pending = true;
+      button.disabled = true;
+      form.setAttribute('aria-busy', 'true');
+      status.textContent = 'Sending';
+      label.textContent = 'Sending...';
+      announce('Sending your message. Please wait for the confirmation below.');
+      var controller = typeof AbortController === 'function' ? new AbortController() : null;
+      var timer;
+      var deadline = new Promise(function (resolve, reject) {
+        timer = setTimeout(function () {
+          if (controller) controller.abort();
+          reject(new Error('timeout'));
+        }, 20000);
       });
+      var request = Promise.resolve().then(function () {
+        return window.fetch('https://formsubmit.co/ajax/aibangbeesandra1@gmail.com', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(payload),
+          signal: controller ? controller.signal : undefined
+        });
+      }).then(function (response) {
+        return response.json().then(function (result) {
+          if (!response.ok || String(result.success) !== 'true') throw new Error('rejected');
+          if (/activat|confirm your email/i.test(result.message || '')) throw new Error('activation');
+        });
+      });
+      return Promise.race([request, deadline]).then(function () {
+        sent = true;
+        form.classList.add('is-sent');
+        status.textContent = 'Sent';
+        label.textContent = 'Message sent';
+        form.querySelectorAll('input, textarea').forEach(function (field) { field.disabled = true; });
+        again.hidden = false;
+        announce('Message sent! Thank you, ' + payload.name + '. Your ticket reference is ' + id + '. I will reply to ' + payload.email + ' within 24 hours.', 'is-success');
+      }).catch(function (error) {
+        status.textContent = 'Not confirmed';
+        label.textContent = 'Try again';
+        announce(error.message === 'timeout'
+          ? 'Sending could not be confirmed because the request timed out. Your message is still here. You can retry, or use the email link below. A retry may send a duplicate.'
+          : 'Your message could not be confirmed as sent. Your details are still here. Please try again or use the email link below.', 'is-error');
+      }).then(function () {
+        clearTimeout(timer);
+        pending = false;
+        button.disabled = sent;
+        form.setAttribute('aria-busy', 'false');
+      });
+    });
+    again.addEventListener('click', function () {
+      form.reset();
+      form.querySelectorAll('input, textarea').forEach(function (field) { field.disabled = false; });
+      sent = false;
+      button.disabled = false;
+      again.hidden = true;
+      form.classList.remove('is-sent');
+      id = newId();
+      idEl.textContent = id;
+      status.textContent = 'Draft';
+      label.textContent = 'Send message';
+      announce('Ready for your next message.');
+      form.querySelector('[name="name"]').focus();
     });
   }
 
