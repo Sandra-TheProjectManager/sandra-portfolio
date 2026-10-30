@@ -712,9 +712,9 @@ a.email-addr:hover { text-decoration: underline; }
 
 /* ---------- Reveal & motion ---------- */
 @media (prefers-reduced-motion: no-preference) {
-  .js .reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s var(--ease); }
+  .js .reveal { opacity: 0; transform: translateY(12px); transition: opacity .5s ease, transform .5s cubic-bezier(.22, 1, .36, 1); }
   .js .reveal.is-visible { opacity: 1; transform: none; }
-  .hero-anim { animation: rise .7s var(--ease) both; animation-delay: var(--d, 0ms); }
+  .hero-anim { animation: rise .6s cubic-bezier(.22, 1, .36, 1) both; animation-delay: var(--d, 0ms); }
   html.intro .hero-anim { animation-name: none; }
   .hero-board:hover .wires path { animation: wire-flow 1.4s linear infinite; }
 }
@@ -1173,9 +1173,9 @@ body:has(.project-reader-modal[open]) { overflow:hidden; }
 @media (prefers-reduced-motion: no-preference) {
 .js .roadmap.reveal { opacity: 1; transform: none; }
   .js .roadmap-bar { transform: scaleX(0); transform-origin: left center; }
-  .js .roadmap.is-visible .roadmap-bar { transform: none; transition: transform .9s var(--ease); transition-delay: calc(var(--i) * 170ms); }
+  .js .roadmap.is-visible .roadmap-bar { transform: none; transition: transform .65s cubic-bezier(.22, 1, .36, 1); transition-delay: calc(var(--i) * 55ms); }
   .js .roadmap-track::after, .js .roadmap-today { opacity: 0; }
-  .js .roadmap.is-visible .roadmap-track::after, .js .roadmap.is-visible .roadmap-today { opacity: 1; transition: opacity .5s ease 1.2s; }
+  .js .roadmap.is-visible .roadmap-track::after, .js .roadmap.is-visible .roadmap-today { opacity: 1; transition: opacity .3s ease .55s; }
 }
 .bricks-section .roadmap { margin: clamp(3rem, 7vw, 4.5rem) 0 0; }
 
@@ -1302,9 +1302,9 @@ body:has(.project-reader-modal[open]) { overflow:hidden; }
 .toolbox-key .tool--team::before { background: #e6dccf; }
 @media (prefers-reduced-motion: no-preference) {
   .js .toolbox .tool { opacity: 0; }
-  .js .toolbox.is-visible .tool { animation: tool-drop .7s cubic-bezier(.3, 1.4, .5, 1) both; animation-delay: calc(var(--i) * 55ms); }
+  .js .toolbox.is-visible .tool { animation: tool-drop .45s cubic-bezier(.22, 1, .36, 1) both; animation-delay: calc(var(--i) * 20ms); }
 }
-@keyframes tool-drop { from { opacity: 0; translate: 0 -140px; rotate: calc(var(--r) * 4); } to { opacity: 1; translate: 0 0; rotate: var(--r); } }
+@keyframes tool-drop { from { opacity: 0; translate: 0 10px; } to { opacity: 1; translate: 0 0; } }
 .ci--x { font: 700 1.05rem/1 var(--font-body); }
 .sign--paper { background: var(--surface); outline: 1.5px solid var(--cocoa); outline-offset: -1.5px; }
 
@@ -1695,19 +1695,19 @@ body:has(.project-reader-modal[open]) { overflow:hidden; }
 
 @media (prefers-reduced-motion: no-preference) {
   .js .section-head.reveal .kicker::after { scale: 0; }
-  .js .section-head.reveal.is-visible .kicker::after { animation: kicker-land .6s cubic-bezier(.3, 1.6, .5, 1) .35s both; }
+  .js .section-head.reveal.is-visible .kicker::after { animation: kicker-land .4s cubic-bezier(.22, 1, .36, 1) .1s both; }
   .js .section-head.reveal .kicker::before { transform: scaleX(0); transform-origin: left; transition: transform .5s var(--ease) .1s; }
   .js .section-head.reveal.is-visible .kicker::before { transform: none; }
 
   /* Home Kanban: cards are dealt onto the board */
   .js .kanban--home.is-waiting .kanban-cards > li { opacity: 0; }
-  .js .kanban--home.is-in .kanban-cards > li { animation: card-dealt .7s cubic-bezier(.25, 1.2, .4, 1) both; }
+  .js .kanban--home.is-in .kanban-cards > li { animation: card-dealt .5s cubic-bezier(.22, 1, .36, 1) both; }
   .js .kanban--home.is-in .kanban-col:nth-child(1) li { animation-delay: .05s; }
   .js .kanban--home.is-in .kanban-col:nth-child(2) li { animation-delay: .2s; }
   .js .kanban--home.is-in .kanban-col:nth-child(3) li { animation-delay: .35s; }
   .js .kanban--home.is-in .kanban-col:nth-child(4) li { animation-delay: .5s; }
-  .js .kanban--home.is-in .kanban-col--open li { animation-delay: .75s; }
-  .js .kanban--home.is-in .kanban-col--open li + li { animation-delay: .9s; }
+  .js .kanban--home.is-in .kanban-col--open li { animation-delay: .32s; }
+  .js .kanban--home.is-in .kanban-col--open li + li { animation-delay: .4s; }
 
   /* Results: each figure fills a small progress bar while it counts */
   .numbers li { position: relative; }
@@ -1726,8 +1726,8 @@ body:has(.project-reader-modal[open]) { overflow:hidden; }
   .js .slider-track.is-in .quote-sheet:nth-child(4) { animation-delay: .45s; }
   .js .slider-track.is-in .quote-sheet:nth-child(5) { animation-delay: .6s; }
 }
-@keyframes kicker-land { 0% { scale: 0; translate: 0 -10px; } 100% { scale: 1; translate: 0 0; } }
-@keyframes card-dealt { 0% { opacity: 0; transform: translate(-40px, -30px) rotate(-8deg); } 100% { opacity: 1; transform: none; } }
+@keyframes kicker-land { from { opacity: 0; scale: .85; } to { opacity: 1; scale: 1; } }
+@keyframes card-dealt { from { opacity: 0; translate: 0 14px; } to { opacity: 1; translate: 0 0; } }
 @keyframes note-pinned { 0% { opacity: 0; transform: translateY(-26px) rotate(-6deg); } 60% { opacity: 1; transform: rotate(2deg); } 100% { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .delivery-bar-marks i { transition: none; } }
 
@@ -1966,3 +1966,24 @@ main > .section { padding-block: clamp(5rem, 10vw, 8rem); }
 .email-status.is-active { border-color: var(--rose); background: var(--rose-soft); color: var(--ink-strong); }
 .email-status:focus-visible { outline: 3px solid var(--rose); outline-offset: 3px; }
 @media (max-width: 640px) { .email-actions { align-items: stretch; } .email-actions .tk-submit { width: 100%; justify-content: center; } }
+
+/* Calm motion: small travel, consistent settling, and explicit interaction feedback. */
+@media (prefers-reduced-motion: no-preference) {
+  .milestone-line path, .hero-board:hover .wires path { animation: none; }
+  .js .step-panel:not([hidden]) { animation: panel-in .24s cubic-bezier(.22, 1, .36, 1); }
+  .lightbox[open], .video-modal[open] { animation: calm-dialog .22s cubic-bezier(.22, 1, .36, 1); }
+  .lightbox[open]::backdrop, .video-modal[open]::backdrop, .project-reader-modal[open]::backdrop { animation: calm-backdrop .2s ease-out; }
+  .email-status.is-active { animation: calm-feedback .3s ease-out; }
+  .js .kanban--home.is-in .kanban-col:nth-child(2) li { animation-delay: .08s; }
+  .js .kanban--home.is-in .kanban-col:nth-child(3) li { animation-delay: .16s; }
+  .js .kanban--home.is-in .kanban-col:nth-child(4) li { animation-delay: .24s; }
+}
+@media (hover: hover) and (pointer: fine) {
+  .project-card, .kanban .project-card { transition: transform .25s cubic-bezier(.22, 1, .36, 1), box-shadow .25s ease, border-color .25s ease; }
+  .kanban .project-card:hover { transform: translateY(-3px); }
+  .project-card .card-media img { transition: transform .5s cubic-bezier(.22, 1, .36, 1); }
+  .project-card:hover .card-media img { transform: scale(1.025); }
+}
+@keyframes calm-dialog { from { opacity: 0; translate: 0 8px; } to { opacity: 1; translate: 0 0; } }
+@keyframes calm-backdrop { from { opacity: 0; } to { opacity: 1; } }
+@keyframes calm-feedback { from { opacity: .6; } to { opacity: 1; } }
