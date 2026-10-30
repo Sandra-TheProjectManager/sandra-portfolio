@@ -1837,3 +1837,22 @@ body { padding-bottom: 30px; }
 .approved-project-cover--girl-power-foundation .approved-cover-image { background: #fff; }
 .project-card .approved-project-cover--girl-power-foundation .approved-cover-image img { width: 72%; height: auto; margin: auto; }
 .story-opening .story-figure img[src*="girl-power-foundation.png"], .project-reader-figure img[src*="girl-power-foundation.png"] { width: min(70%, 420px); margin: 2.5rem auto; }
+
+/* =========================================================
+   Cleaner chapters: numbered labels, one emphasised phrase,
+   a quieter footer note and more breathing room.
+   ========================================================= */
+.ch-no { display: inline-grid; place-items: center; min-width: 1.9rem; height: 1.25rem; padding: 0 .35rem; margin-right: .1rem; border: 1px solid currentColor; border-radius: 999px; font-size: .68rem; letter-spacing: .06em; font-variant-numeric: tabular-nums; }
+.section-head .kicker:has(.ch-no)::before, .section-head .kicker:has(.ch-no)::after, .kicker:has(.ch-no)::before { content: none; display: none; }
+.h-em { font-style: italic; color: var(--rose); }
+main > .section { padding-block: clamp(5rem, 10vw, 8rem); }
+.section-head p:not(.kicker) { max-width: 52ch; }
+
+/* Footer: the "this site is a project" note as one quiet line */
+.made-by { margin-top: 1.6rem; padding: 0; border: 0; background: none; gap: .7rem; }
+.made-by p { font-size: .88rem; color: var(--muted); }
+.made-by b { color: var(--ink-strong); font-weight: 600; }
+.made-by-stamp { padding: .2rem .45rem; font-size: .62rem; border-width: 1.5px; outline-offset: 1px; }
+.footer-legal { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .3rem 1.1rem; }
+.footer-legal a, .footer-legal .analytics-settings { display: inline; margin: 0; padding: 0; min-height: 0; border: 0; background: none; color: var(--muted); font: inherit; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.footer-legal a:hover, .footer-legal .analytics-settings:hover { color: var(--ink-strong); }

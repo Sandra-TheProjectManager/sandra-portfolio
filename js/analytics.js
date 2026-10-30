@@ -183,7 +183,7 @@
     var settings = document.createElement('button');
     settings.type = 'button'; settings.className = 'analytics-settings'; settings.textContent = 'Analytics privacy';
     settings.addEventListener('click', function () { lastFocus = settings; panel.hidden = !panel.hidden; if (!panel.hidden) panel.querySelector('button').focus(); });
-    var footer = document.querySelector('.site-footer .container') || document.querySelector('footer') || document.body;
+    var footer = document.querySelector('.footer-legal') || document.querySelector('.site-footer .container') || document.querySelector('footer') || document.body;
     footer.appendChild(settings);
     panel.addEventListener('keydown', function (e) { if (e.key === 'Escape') { panel.hidden = true; if (lastFocus) lastFocus.focus(); } });
     var choice = saved();
