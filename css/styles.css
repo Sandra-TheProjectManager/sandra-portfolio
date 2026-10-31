@@ -2010,3 +2010,7 @@ main > .section { padding-block: clamp(5rem, 10vw, 8rem); }
 .ticket-sla { margin-top:1rem; gap:.35rem; }
 .ticket-sla li { font-size:.85rem; }
 @media(max-width:900px) { .ticket-section .ticket-grid { grid-template-columns:1fr; max-width:660px; } }
+/* Company logos sit alongside the readable career names. */
+.brick .career-logo { display:inline-block; flex:none; width:.95em; height:.85em; object-fit:contain; padding:.07em; border-radius:.12em; background:#fff; }
+.brick .career-logo--cocoa { width:1.45em; }
+@media(max-width:600px) { .brick-stack { font-size:clamp(1.45rem,6.4vw,2.4rem); } }
