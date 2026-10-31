@@ -1,0 +1,86 @@
+/* Small playful additions, using the portfolio's existing paper and rose palette. */
+.personality .section-head{align-items:end}.personality .section-head>p{max-width:35ch;color:var(--muted)}
+.frame-gallery{padding:2rem 0 .5rem;overflow:hidden;perspective:1100px}
+.frame-deck{position:relative;height:clamp(270px,43vw,480px);max-width:960px;margin:0 auto;transform-style:preserve-3d}
+.frame-card{position:absolute;left:50%;top:0;width:55%;height:100%;padding:.55rem;background:var(--surface);border:1px solid var(--line-2);border-radius:20px;box-shadow:0 15px 35px #3b241d24;cursor:pointer;transform:translateX(calc(-50% + var(--offset,0)*30%)) rotateY(calc(var(--offset,0)*-14deg)) scale(var(--scale,1));z-index:var(--layer,1);transition:transform .6s var(--ease),filter .6s;filter:brightness(var(--brightness,1));overflow:hidden}
+.frame-card img{height:100%;width:100%;object-fit:cover;border-radius:13px}.frame-card:nth-child(2) img,.frame-card:nth-child(3) img,.frame-card:nth-child(4) img{object-fit:contain;background:var(--paper-2)}
+.frame-controls{display:flex;align-items:center;justify-content:center;gap:1.3rem;padding:2rem 0 0}.frame-controls p{margin:0;text-align:center;font-size:.85rem;min-width:200px;color:var(--muted)}
+.music-section{padding-top:1rem}.record-player{max-width:920px;margin:2rem auto 0;display:grid;grid-template-columns:1.1fr 1fr;align-items:center;gap:3rem;padding:clamp(1.3rem,4vw,3.3rem);border:1px solid var(--line-2);border-radius:28px;background:var(--surface);box-shadow:var(--shadow-md)}
+.record-art{position:relative;aspect-ratio:1.15;isolation:isolate}.record-sleeve{position:absolute;inset:0 22% 0 0;display:flex;flex-direction:column;justify-content:space-between;padding:1.25rem;background:linear-gradient(160deg,#e7c2cb,#f4e5ce 58%,#b4818f);border:1px solid #b3818f;border-radius:9px;color:#3b241d;box-shadow:5px 10px 20px #3b241d25;overflow:hidden}.record-sleeve>span{font:500 clamp(1.6rem,3vw,2.7rem)/1.04 var(--font-display);letter-spacing:-.04em}.record-sleeve small{font-size:.53rem;letter-spacing:.16em;font-weight:700}.record-sleeve i{width:100%;height:28%;border-top:1px solid #9e6974;border-bottom:1px solid #9e6974;background:repeating-linear-gradient(0deg,transparent 0 8px,#a8486225 8px 9px);transform:rotate(-12deg) scale(1.3)}
+.vinyl{position:absolute;z-index:-1;width:88%;aspect-ratio:1;right:0;top:6%;display:grid;place-items:center;border-radius:50%;background:repeating-radial-gradient(circle,#242021 0 2px,#393234 3px,#201c1d 4px);box-shadow:8px 8px 20px #3b241d30;animation:record-spin 9s linear infinite;animation-play-state:paused}.vinyl>span{display:grid;place-content:center;width:35%;aspect-ratio:1;border-radius:50%;background:#d99aab;color:#3b241d;text-align:center;font:700 .65rem/1.6 var(--font-body)}.record-player.is-playing .vinyl{animation-play-state:running}.record-info h3{font-size:1.8rem;margin:1rem 0 .6rem;overflow-wrap:anywhere}.record-info audio{width:100%;height:44px;margin-top:1.2rem}.audio-picker{position:relative;display:inline-flex;cursor:pointer;min-height:44px;align-items:center;padding:.5rem 1rem;border:1px solid var(--line-2);border-radius:999px;font-size:.85rem;font-weight:600;overflow:hidden}.audio-picker input{position:absolute;inset:0;opacity:0;width:100%;cursor:pointer}.audio-picker:focus-within{outline:3px solid var(--rose);outline-offset:3px}.record-message{font-size:.8rem;color:var(--rose);min-height:1.4em}
+.little-companion{position:relative;display:flex;justify-content:center;align-items:center;min-height:240px;padding-block:2rem 3rem}.companion-button{width:140px;border:0;background:transparent;cursor:pointer;position:relative;z-index:1;border-radius:40px}.companion-robot{width:100%;overflow:visible;filter:drop-shadow(0 6px 6px #3b241d12)}.robot-float{animation:companion-hover 4s ease-in-out infinite;transform-origin:80px 100px}.companion-button:hover .robot-float{animation:companion-wave .65s ease-in-out 2}.companion-note{position:absolute;left:calc(50% + 75px);top:3rem;max-width:220px;padding:1.1rem 1.3rem;border:1px solid var(--line-2);border-radius:18px 18px 18px 2px;background:var(--surface);box-shadow:var(--shadow-sm);font-size:.9rem}.companion-note p{margin:0 0 .5rem}.companion-note a{color:var(--rose);font-weight:700}.companion-hint{position:absolute;bottom:1rem;margin:0;font-size:1.1rem}
+.hero-constellation{position:absolute;inset:0;pointer-events:none;opacity:.4}.hero-constellation svg{width:100%;height:100%}.hero-constellation path{stroke:var(--rose-mid);stroke-width:1;fill:none}.hero-constellation circle{fill:var(--rose)}.hero-playground{isolation:isolate}.hero-playground>.container{position:relative;z-index:1}.play-object{position:absolute;z-index:2;display:grid;place-items:center;width:65px;height:65px;border:0;background:transparent;color:var(--rose);cursor:grab;touch-action:none;transform:translate(var(--drag-x,0px),var(--drag-y,0px));user-select:none}.play-object:active{cursor:grabbing}.play-object--diamond{top:16%;right:4%;font-size:4rem;text-shadow:3px 3px #eadbc1}.play-object--ring{bottom:8%;left:2%}.play-object--ring span{width:38px;height:48px;border:9px solid var(--rose-mid);border-radius:50%;transform:rotate(-35deg);box-shadow:4px 3px #eadbc1,inset 2px 2px #a84862}
+@keyframes record-spin{to{transform:rotate(360deg)}}@keyframes companion-hover{50%{transform:translateY(-9px) rotate(3deg)}}@keyframes companion-wave{50%{transform:rotate(-12deg) translateY(-6px)}}
+@media(max-width:650px){.record-player{grid-template-columns:1fr;gap:1.8rem}.record-art{width:min(100%,300px);margin:auto}.frame-card{width:72%;border-radius:14px;padding:.35rem}.frame-deck{height:340px}.frame-controls{gap:.5rem}.frame-controls p{min-width:0;flex:1}.companion-note{left:auto;right:.8rem;max-width:160px;top:1rem;font-size:.8rem}.little-companion:has(.companion-note:not([hidden])) .companion-button{transform:translateX(-60px)}.play-object{width:44px;height:44px}.play-object--diamond{font-size:2.7rem;top:12%;right:1%}.play-object--ring{bottom:2%}.hero-constellation{opacity:.2}}
+@media(prefers-reduced-motion:reduce){.robot-float,.companion-button:hover .robot-float,.vinyl{animation:none}.frame-card{transition:none}}
+
+/* Spotify controls handle playback directly, without autoplay. */
+.spotify-player{display:block;width:100%;border:0;border-radius:12px;margin:1rem 0;min-width:0}.spotify-link{font-size:.85rem}.record-info{min-width:0}
+/* Give the gallery an obvious entrance and the companion a playful introduction. */
+.personality-jump { margin:0 0 1.3rem; font-size:.9rem; }
+.personality-jump a { color:var(--rose); font-weight:700; text-decoration-thickness:1px; text-underline-offset:5px; }
+#in-the-frame { scroll-margin-top:100px; }
+.companion-note { top:1.2rem; width:230px; max-width:230px; }
+.companion-note strong { font:600 1.25rem/1.15 var(--font-display); }
+.robot-float { animation:companion-jig 8s ease-in-out infinite; }
+.companion-button:hover .robot-float,.is-dancing .robot-float { animation:companion-dance 1.7s ease-in-out 1; }
+@keyframes companion-jig { 0%,55%,100%{transform:translateY(0) rotate(0)} 62%{transform:translate(-7px,-7px) rotate(-10deg)} 68%{transform:translate(7px,-11px) rotate(10deg)} 74%{transform:translate(-5px,-7px) rotate(-8deg)} 80%{transform:translate(5px,-9px) rotate(8deg)} 88%{transform:translateY(-3px) rotate(0)} }
+@keyframes companion-dance { 0%,100%{transform:translateY(0) rotate(0)} 15%{transform:translate(-15px,-8px) rotate(-16deg)} 30%{transform:translate(15px,-18px) rotate(16deg)} 45%{transform:translate(-12px,-9px) rotate(-12deg)} 60%{transform:translate(12px,-20px) rotate(12deg)} 80%{transform:translateY(-28px) rotate(-5deg)} }
+@media(max-width:650px) { .companion-note { right:.5rem; width:155px; max-width:155px; padding:.8rem; } .companion-note strong { font-size:1.05rem; } }
+@media(prefers-reduced-motion:reduce) { .robot-float,.companion-button:hover .robot-float,.is-dancing .robot-float { animation:none; } }
+/* A smaller photo interlude near the end of each page. */
+#in-the-frame { padding-block:2.25rem; }
+#in-the-frame > .container { max-width:820px; }
+#in-the-frame .section-head { margin-bottom:.8rem; gap:1rem; }
+#in-the-frame .section-head h2 { font-size:clamp(1.6rem,3vw,2.1rem); }
+#in-the-frame .section-head>p { font-size:.85rem; }
+#in-the-frame .kicker { margin-bottom:.6rem; font-size:.68rem; }
+#in-the-frame .frame-gallery { padding-top:1rem; }
+#in-the-frame .frame-deck { max-width:660px; height:clamp(210px,29vw,300px); }
+#in-the-frame .frame-card { width:49%; border-radius:14px; padding:.35rem; }
+#in-the-frame .frame-card img { border-radius:9px; }
+#in-the-frame .frame-controls { padding-top:1rem; gap:.8rem; }
+#in-the-frame .frame-controls p { font-size:.78rem; }
+@media(max-width:650px) { #in-the-frame .frame-deck { height:235px; } #in-the-frame .frame-card { width:61%; } #in-the-frame .section-head { display:block; } #in-the-frame .section-head>p { margin-top:.65rem; } }
+/* A rosy, ribbon-wearing companion with a little room to wander. */
+.companion-button { animation:companion-wander 9s ease-in-out infinite; }
+.companion-button:hover,.companion-button:focus-visible,.is-dancing .companion-button { animation-play-state:paused; }
+.robot-bow { transform-box:fill-box; transform-origin:center; animation:bow-bob 3s ease-in-out infinite; }
+.robot-sparkles { animation:sparkle-blush 2.8s ease-in-out infinite; }
+.companion-note { background:linear-gradient(140deg,#fffdf8,#f9e9ef); border-color:#ddb8c5; box-shadow:0 10px 28px -14px #a8486240; }
+.companion-note::after { content:"\2661"; position:absolute; right:.8rem; top:.55rem; color:var(--rose); font-size:1.3rem; }
+@keyframes companion-wander { 0%,100% { translate:-8px 0; } 25% { translate:-52px -8px; } 50% { translate:-20px 5px; } 75% { translate:12px -10px; } }
+@keyframes bow-bob { 0%,100% { rotate:-7deg; } 50% { rotate:8deg; } }
+@keyframes sparkle-blush { 0%,100% { opacity:.25; } 50% { opacity:.9; } }
+@media(max-width:650px) { @keyframes companion-wander { 0%,100% { translate:0 0; } 35% { translate:-14px -7px; } 70% { translate:8px 3px; } } }
+@media(prefers-reduced-motion:reduce) { .companion-button,.robot-bow,.robot-sparkles { animation:none; } }
+/* The original stacked cards, browsed by dragging or swiping. */
+#in-the-frame .frame-gallery { overflow:hidden; touch-action:pan-y; }
+#in-the-frame .frame-deck { cursor:grab; }
+#in-the-frame .frame-deck.is-dragging,#in-the-frame .frame-deck.is-dragging .frame-card { cursor:grabbing; }
+#in-the-frame .frame-card { touch-action:pan-y; user-select:none; }
+#in-the-frame .frame-card img { pointer-events:none; }
+#in-the-frame .frame-hint { text-align:center; margin:.6rem 0 0; color:var(--muted); font-size:.75rem; }
+/* A new character walks across a little wall and writes her signature. */
+.wall-scene{max-width:920px;padding-block:2rem 2.5rem}
+.signature-wall{position:relative;isolation:isolate;height:280px;border-bottom:1px solid var(--line-2);overflow:hidden;background:radial-gradient(ellipse at 50% 65%,#f3dde24d,transparent 70%)}
+.wall-kicker{position:absolute;left:8%;top:1rem;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.wall-signature{position:absolute;left:17%;right:9%;top:4.4rem;margin:0;color:var(--rose);font:500 clamp(1.7rem,4vw,2.7rem)/1.15 var(--font-note);clip-path:inset(0 100% 0 0);animation:signature-reveal 14s linear infinite}
+.wall-signature span{display:block;font-size:.8em}.wall-signature i{position:absolute;right:5%;top:.5rem;font-style:normal;font-size:1.6em}
+.wall-floor{position:absolute;bottom:0;inset-inline:5%;height:1px;background:var(--line)}
+.wall-writer{position:absolute;bottom:0;left:5%;width:110px;height:160px;animation:writer-walk 14s linear infinite;will-change:left}
+.writer-character{width:100%;height:100%;overflow:visible}
+.writer-left-leg,.writer-right-leg{transform-origin:75px 155px;animation:writer-step .65s ease-in-out infinite alternate}.writer-right-leg{animation-direction:alternate-reverse}
+.writer-body{animation:writer-bounce .65s ease-in-out infinite alternate;transform-origin:75px 140px}
+.writer-arm{transform-origin:95px 97px;animation:writer-scribble .3s ease-in-out infinite alternate}
+.wall-controls{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.8rem 1.5rem;padding-top:1rem}.wall-controls .note{font-size:1.15rem;margin:0}.wall-controls>div{display:flex;gap:.5rem}.wall-controls .btn{font-size:.72rem;min-height:36px;padding:.4rem .7rem}.wall-controls>.text-link{font-size:.85rem}
+.wall-scene.is-paused *,.wall-scene.is-offscreen *{animation-play-state:paused!important}.wall-scene.is-resetting *{animation:none!important}
+@keyframes writer-walk{0%,5%{left:3%;transform:scaleX(1)}55%,65%{left:77%;transform:scaleX(1)}66%{left:77%;transform:scaleX(-1)}93%{left:3%;transform:scaleX(-1)}94%,100%{left:3%;transform:scaleX(1)}}
+@keyframes signature-reveal{0%,5%{clip-path:inset(0 100% 0 0)}55%,94%{clip-path:inset(0 0 0 0);opacity:1}99%,100%{clip-path:inset(0 0 0 0);opacity:0}}
+@keyframes writer-step{from{rotate:-12deg}to{rotate:12deg}}
+@keyframes writer-bounce{from{translate:0 0}to{translate:0 -3px}}
+@keyframes writer-scribble{from{rotate:-8deg}to{rotate:7deg}}
+@media(max-width:650px){#in-the-frame .frame-deck{--photo-width:210px}#in-the-frame .frame-card{height:245px}.signature-wall{height:250px}.wall-writer{width:85px;height:125px}.wall-signature{left:12%;top:4.5rem;font-size:1.8rem}.wall-kicker{left:5%;font-size:.58rem}.wall-controls{gap:.7rem}.wall-controls .note{width:100%;text-align:center;font-size:1rem}}
+@media(prefers-reduced-motion:reduce){.wall-scene *{animation:none!important}.wall-signature{clip-path:none;opacity:1}.wall-writer{left:4%}.wall-controls>div{display:none}}
+/* Keep the tagline immediately below the handwritten title. */
+.wall-signature .wall-tagline { display:block; margin-top:.6rem; font:500 clamp(.8rem,1.7vw,1rem)/1.45 var(--font-body); letter-spacing:.02em; color:var(--muted); }

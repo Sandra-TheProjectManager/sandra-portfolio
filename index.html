@@ -30,7 +30,8 @@
   
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap"></noscript>
-  <link rel="stylesheet" href="/css/styles.css?v=dc884f437e">
+  <link rel="stylesheet" href="/css/styles.css?v=3037f1d747">
+  <link rel="stylesheet" href="/css/personality.css?v=533d61c183">
   <link rel="preload" as="image" href="/assets/images/sandra-hero.jpg">
 
   <script>
@@ -77,6 +78,7 @@
     })();
   </script>
   <script src="/js/main.js?v=22766606d0" defer></script>
+  <script src="/js/personality.js?v=8f6d849d4e" defer></script>
   <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://sandraaibangbee.com/#website","url":"https://sandraaibangbee.com/","name":"Sandra Aibangbee","inLanguage":"en","publisher":{"@id":"https://sandraaibangbee.com/#person"}},{"@type":"Person","@id":"https://sandraaibangbee.com/#person","name":"Sandra Aibangbee","url":"https://sandraaibangbee.com/","image":"https://sandraaibangbee.com/assets/images/sandra-hero.jpg","jobTitle":"Head of Sales Operations / Project Manager","worksFor":{"@type":"Organization","name":"Frutta Foods"},"address":{"@type":"PostalAddress","addressLocality":"Lagos","addressCountry":"NG"},"email":"mailto:aibangbeesandra1@gmail.com","sameAs":["https://www.linkedin.com/in/sandraaibangbee","https://x.com/i_am_san_dra"],"knowsAbout":["Project management","Business analysis","Sales operations","Revenue operations","CRM implementation","Sales force automation","Route-to-market execution","Business process improvement","Digital transformation","Data analytics and reporting","SAP Business One","Stakeholder management","FMCG commercial operations"],"alumniOf":[{"@type":"CollegeOrUniversity","name":"National Open University of Nigeria"},{"@type":"EducationalOrganization","name":"Lagos Business School"},{"@type":"CollegeOrUniversity","name":"Ambrose Alli University"}],"hasCredential":[{"@type":"EducationalOccupationalCredential","name":"PMI Professional in Business Analysis (PMI-PBA)","credentialCategory":"certification","recognizedBy":{"@type":"Organization","name":"Project Management Institute"}},{"@type":"EducationalOccupationalCredential","name":"PGD in Project Management","credentialCategory":"certificate","recognizedBy":{"@type":"Organization","name":"Chartered Institute of Project Management"}},{"@type":"EducationalOccupationalCredential","name":"SAP Certified Associate Project Manager","credentialCategory":"certification","recognizedBy":{"@type":"Organization","name":"Chartered Institute of Project Management"}}]},{"@id":"https://sandraaibangbee.com/#webpage","url":"https://sandraaibangbee.com/","name":"Sandra Aibangbee | Project Manager, Sales Operations & Business Analyst","description":"Sandra Aibangbee is a Lagos-based project manager and business analyst delivering CRM/SFA rollouts, sales operations, reporting and process improvement.","isPartOf":{"@id":"https://sandraaibangbee.com/#website"},"inLanguage":"en","@type":"WebPage","about":{"@id":"https://sandraaibangbee.com/#person"},"mainEntity":{"@id":"https://sandraaibangbee.com/#person"}}]}</script>
 <link rel="stylesheet" href="/css/analytics.css?v=5dab698b31">
 <script defer src="/js/analytics.js?v=8cc0d5514f"></script>
@@ -164,7 +166,10 @@
   <div class="delivery-bar" data-delivery-bar aria-hidden="true"><div class="delivery-bar-fill"></div><div class="delivery-bar-marks"></div><span class="delivery-bar-label">0% delivered</span></div>
   <main id="main">
     
-    <section class="hero dotgrid" aria-labelledby="hero-heading">
+    <section class="hero dotgrid hero-playground" aria-labelledby="hero-heading">
+      <div class="hero-constellation" aria-hidden="true"><svg viewBox="0 0 1000 600" preserveAspectRatio="none"><path d="M15 180L120 60 270 110 400 25M710 70L860 150 970 80M730 450L840 530 970 400M25 470L150 400 250 520"/><g><circle cx="120" cy="60" r="3"/><circle cx="270" cy="110" r="3"/><circle cx="860" cy="150" r="3"/><circle cx="840" cy="530" r="3"/><circle cx="150" cy="400" r="3"/></g></svg></div>
+      <button class="play-object play-object--diamond" data-play-object type="button" aria-label="Move the floating milestone; drag or use arrow keys"><span aria-hidden="true">✧</span></button>
+      <button class="play-object play-object--ring" data-play-object type="button" aria-label="Move the floating ring; drag or use arrow keys"><span aria-hidden="true"></span></button>
       <div class="container hero-grid">
         <div>
           <ul class="focus-list hero-anim" style="--d:0ms" aria-label="Focus areas">
@@ -177,6 +182,7 @@
             From business needs to <span class="em-link">projects delivered.</span>
           </h1>
           <p class="lead hero-lede hero-anim" style="--d:160ms">I’m Sandra Aibangbee, a Project Manager, Business Analyst and Operations Professional. I connect requirements, people and processes to move work forward.</p>
+          <p class="personality-jump"><a href="#in-the-frame">Browse the photo gallery <span aria-hidden="true">?</span></a></p>
           <div class="btn-row hero-anim" style="--d:240ms">
             <a class="btn btn-primary" href="/work/">See My Work <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
             <a class="btn btn-ghost" href="/assets/Sandra-Aibangbee-Resume.pdf" download="Sandra-Aibangbee-Resume.pdf">
@@ -242,11 +248,14 @@
               <li class="logo-plaque"><img width="279" height="66" class="organisation-logo" src="/assets/images/logos/junior-achievement-nigeria.svg" alt="Junior Achievement Nigeria logo" loading="eager" decoding="async"></li>
             </ul>
           </div>
+          <p class="frame-hint">Two-finger slide on your trackpad, or swipe to explore</p>
         </div>
       </div>
     </section>
 
     
+
+
     <section class="section mess-section" aria-labelledby="mess-heading">
       <div class="container mess-grid">
         <div class="reveal">
@@ -510,6 +519,22 @@
 
     
     <section class="section testimonial-section" id="testimonials-preview" aria-labelledby="home-reviews-heading"><div class="container"><header class="section-head"><div><p class="review-annotation">From people I’ve worked with <span aria-hidden="true">↘</span></p><h2 id="home-reviews-heading">What people say</h2></div><a class="text-link" href="/about/#testimonials">More about working with me →</a></header><div data-slider role="region" aria-label="Testimonials"><div class="slider-track" data-animate-once role="group" tabindex="0" aria-label="Reviews; swipe or use left and right arrow keys. Home and End move to the boundaries."><figure class="slide quote-sheet"><blockquote><p>Sandra doesn't just deliver projects — she transforms how teams operate. After she restructured our sales reporting, we finally had visibility into what was actually driving revenue.</p></blockquote><figcaption><strong>Taiwo Morankinyo</strong><span>Multipro Consumer Products</span></figcaption></figure><figure class="slide quote-sheet"><blockquote><p>What sets Sandra apart is her ability to see the whole system. She came in, mapped our broken workflows, and within weeks we had automated processes that saved us 15+ hours per week.</p></blockquote><figcaption><strong>Excellent Uchechukwuka</strong><span>Dufil Nigeria</span></figcaption></figure><figure class="slide quote-sheet"><blockquote><p>I've worked with many project managers. Sandra is the rare one who actually understands the business problem — not just the timeline. She asks the right questions and builds solutions that last.</p></blockquote><figcaption><strong>Chris Emeka</strong><span>HelpApp Africa</span></figcaption></figure><figure class="slide quote-sheet"><blockquote><p>Sandra led our SFA implementation with a level of rigor I hadn't seen before. She turned chaos into a system that our team could actually follow and sustain on their own.</p></blockquote><figcaption><strong>Obinna Nna</strong><span>Tolaram Nigeria</span></figcaption></figure><figure class="slide quote-sheet"><blockquote><p>Sandra brought clarity, structure, and follow-through to our technical operations. She is the kind of operator who makes the complex feel effortless.</p></blockquote><figcaption><strong>Jeff Wodu</strong><span>Frutta Foods</span></figcaption></figure></div><div class="review-controls"><div class="slider-controls" hidden><button class="review-arrow" type="button" data-slide="prev" aria-label="Previous testimonial"><svg viewBox="0 0 90 40" aria-hidden="true" fill="none" style="transform:rotate(180deg)"><path d="M7 24 Q33 9 77 19 M63 6 Q73 14 81 20 L64 31"/></svg></button><span class="review-position" data-slide-position role="status" aria-live="polite" aria-atomic="true">1 / 5</span><button class="review-arrow" type="button" data-slide="next" aria-label="Next testimonial"><svg viewBox="0 0 90 40" aria-hidden="true" fill="none"><path d="M7 24 Q33 9 77 19 M63 6 Q73 14 81 20 L64 31"/></svg></button></div><span class="review-footnote">A few notes, in their own words.</span></div></div></div></section>
+    <section class="section personality" id="in-the-frame" aria-labelledby="frame-heading">
+      <div class="container">
+        <header class="section-head"><div><p class="kicker">A closer look</p><h2 id="frame-heading">In the frame.</h2></div><p>A few snapshots of me and the work. Swipe or drag to roll through the photos.</p></header>
+        <div class="frame-gallery" data-frame-gallery role="region" aria-label="Snapshots; swipe, drag, or use keyboard arrow keys to browse" tabindex="0">
+          <div class="frame-deck">
+            <button class="frame-card" type="button" data-caption="Sandra Aibangbee" aria-label="Show Sandra Aibangbee"><img width="960" height="1200" src="/assets/images/sandra-about.jpg" alt="Sandra Aibangbee" loading="lazy" decoding="async"></button>
+            <button class="frame-card" type="button" data-caption="Munch It · Brand activation" aria-label="Show Munch It brand activation"><img width="196" height="148" src="/assets/images/munchit-poster.png" alt="Munch It brand activation project" loading="lazy" decoding="async"></button>
+            <button class="frame-card" type="button" data-caption="Girl Power Foundation · Digital work" aria-label="Show Girl Power Foundation"><img width="1280" height="720" src="/assets/images/girl-power-foundation-cover.jpg" alt="Girl Power Foundation project preview" loading="lazy" decoding="async"></button>
+            <button class="frame-card" type="button" data-caption="HelpApp Africa · Product work" aria-label="Show HelpApp Africa"><img width="1280" height="720" src="/assets/images/helpapp-africa-cover-public.jpg" alt="HelpApp Africa project preview" loading="lazy" decoding="async"></button>
+            <button class="frame-card" type="button" data-caption="Sandra · Behind the projects" aria-label="Show Sandra behind the projects"><img width="864" height="1080" src="/assets/images/sandra-hero.jpg" alt="Portrait of Sandra" loading="lazy" decoding="async"></button>
+          </div>
+          <div class="frame-controls"><p data-frame-status role="status" aria-live="polite">Sandra Aibangbee · 1 / 5</p></div>
+        </div>
+      </div>
+    </section>
+
     <section class="cta-band cta-band--signpost" aria-labelledby="cta-heading">
       <div class="container signpost-grid">
         <nav class="signpost reveal" aria-label="Quick links">
@@ -554,6 +579,27 @@
         <a class="site-roadmap-next" href="/work/"><span>Next stop: <strong>Work</strong> <span aria-hidden="true">→</span></span><small>All 8 projects on the board</small></a>
       </div>
     </nav>
+
+
+    <section class="container wall-scene" data-wall-scene aria-label="Sandra's animated wall signature">
+      <div class="signature-wall">
+        <span class="wall-kicker">A little signature, a lot of follow-through.</span>
+        <p class="wall-signature">Sandra <span>The Project Manager</span><small class="wall-tagline">Turning plans into progress.</small><i aria-hidden="true">&#9825;</i></p>
+        <div class="wall-floor" aria-hidden="true"></div>
+        <div class="wall-writer" aria-hidden="true">
+          <svg viewBox="0 0 160 220" class="writer-character"><ellipse cx="76" cy="210" rx="40" ry="5" fill="#3b241d" opacity=".12"/>
+          <g class="writer-left-leg"><path d="M62 155L57 194" stroke="#784b43" stroke-width="15" stroke-linecap="round"/><path d="M57 196l-12 7h23" fill="none" stroke="#a84862" stroke-width="9" stroke-linecap="round"/></g>
+          <g class="writer-right-leg"><path d="M88 155L98 194" stroke="#784b43" stroke-width="15" stroke-linecap="round"/><path d="M98 196l-4 7h22" fill="none" stroke="#a84862" stroke-width="9" stroke-linecap="round"/></g>
+          <g class="writer-body"><path d="M43 49Q37 10 77 10Q110 9 110 50L114 98H40Z" fill="#392620"/><path d="M57 84Q74 76 91 85L107 155Q75 168 44 155Z" fill="#d99aab" stroke="#a84862" stroke-width="2"/><path d="M65 83l10 17 11-17" fill="#fff5e9"/><path d="M73 99v51" stroke="#f7d6df" stroke-width="2"/><circle cx="81" cy="119" r="2" fill="#a84862"/><circle cx="81" cy="134" r="2" fill="#a84862"/>
+          <path d="M50 99Q30 123 45 137" stroke="#c7899d" stroke-width="14" fill="none" stroke-linecap="round"/><circle cx="46" cy="138" r="7" fill="#b8795f"/>
+          <path d="M67 72v13q10 12 18 0V72" fill="#b8795f"/><ellipse cx="77" cy="49" rx="27" ry="32" fill="#be8268"/><path d="M50 47Q45 13 75 15Q106 12 108 50Q91 42 84 24Q75 42 50 47Z" fill="#392620"/><path d="M62 51q4-4 8 0M86 51q4-4 8 0" stroke="#392620" fill="none" stroke-width="2.5" stroke-linecap="round"/><path d="M72 65q7 6 14-1" stroke="#713934" fill="none" stroke-width="2.5" stroke-linecap="round"/><ellipse cx="60" cy="60" rx="5" ry="2.5" fill="#d88d88"/><ellipse cx="96" cy="60" rx="5" ry="2.5" fill="#d88d88"/><circle cx="51" cy="59" r="3" fill="#eac68a"/><circle cx="104" cy="58" r="3" fill="#eac68a"/>
+          <g fill="#e8a6bf" stroke="#a84862" stroke-width="1.5"><path d="M98 26Q79 8 85 29L97 34Z"/><path d="M101 26Q117 7 118 27L103 34Z"/><circle cx="100" cy="29" r="5"/></g>
+          <g class="writer-arm"><path d="M94 97Q113 108 123 77" stroke="#c7899d" stroke-width="13" fill="none" stroke-linecap="round"/><circle cx="124" cy="75" r="7" fill="#be8268"/><path d="M124 80l10-28" stroke="#a84862" stroke-width="4" stroke-linecap="round"/><path d="M134 52l2-6" stroke="#3b241d" stroke-width="2" stroke-linecap="round"/></g></g></svg>
+        </div>
+      </div>
+      <div class="wall-controls"><a href="/contact/" class="text-link">Let's talk &#8594;</a></div>
+    </section>
+
   </main>
 
   <footer class="site-footer">
